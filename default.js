@@ -119,4 +119,30 @@ const MainDrawerNavigator = createDrawerNavigator({
   //Sidebar width
   drawerWidth: Dimensions.get('window').width - 130,
 });
-export default MainDrawerNavigator;
+export default MainDrawerNavigator
+
+
+
+
+
+
+
+
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/TkPhHfw/bilal.jpg" alt="bilal" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/bbwYTy6/daurawa.jpg" alt="daurawa" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/HXRh6Pp/default.jpg" alt="default" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/3sK6kGc/gombe.jpg" alt="gombe" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/CpyPVVs/mufti.jpg" alt="mufti" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/B3PtkC3/pantami.jpg" alt="pantami" border="0"></a>
+
+
+https://i.ibb.co/TkPhHfw/bilal.jpg|https://i.ibb.co/bbwYTy6/daurawa.jpg|https://i.ibb.co/3sK6kGc/gombe.jpg|https://i.ibb.co/CpyPVVs/mufti.jpg|https://i.ibb.co/B3PtkC3/pantami.jpg|https://i.ibb.co/HXRh6Pp/default.jpg
+
+Bilal Philip|Malam Aminu Daurawa|Malam Kabir Gombe|Mufti Menk|Dr Isa Pantami
+
+Principle of Al-Quran|Principle of Tafseer|The Do's and Don'ts of Marriage|Purification|Pearls of Grace and Wisdom|The true essence of Islam|Nature|The life hereafter|Love your neightbour|Jannah
+
+02:00pm - 04:00pm|07:30pm - 08:30pm|05:00pm - 05:30pm|12:00pm - 01:20pm|04:00pm - 05:00pm|04:15pm - 05:30pm|06:15pm - 07:00pm|03:30pm - 05:00pm|02:30pm - 03:00pm|03:45pm - 05:45pm
+
+Monday|Tuesday|Wednesday|Thursday|Friday|Saturday

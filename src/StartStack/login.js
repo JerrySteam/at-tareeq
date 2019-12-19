@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { StyleSheet, Text, View, ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, AsyncStorage } from 'react-native';
 //import { Container, Header, Content} from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
@@ -14,6 +14,9 @@ export default class LoginScreen extends Component{
     super(props);
     this.state = {
       isReady: false,
+      username: '',
+      password: '',
+      isLoading: false,
     };
   }
   async componentDidMount() {
@@ -22,16 +25,6 @@ export default class LoginScreen extends Component{
     });
     this.setState({ isReady: true });
   }
-  /**
-  static navigationOptions = {
-    title: 'Log into your account',
-    headerTitleStyle: {
-      fontSize: wp('6%'),
-      color: '#fff'
-    },
-    headerTransparent: true,
-    headerTintColor: '#fff',
-  }; */
   static navigationOptions = {
     header: null
   };
@@ -55,12 +48,11 @@ export default class LoginScreen extends Component{
           <Text style={styles.appSubTitle}>Log into your account</Text>
           <Input
             placeholder='Email/Phone No'
-            /*
-            label='Email/Phone No'
-            labelStyle = {{fontSize: wp('5%')}}*/
             leftIcon={{type: 'font-awesome', name:'user', size:wp('7%'), color:'gray' }}
             inputStyle={{color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'),}}
             containerStyle={{width: wp('83%'), marginTop:wp('16%')}}
+            onChangeText={input => this.setState({username: input})}
+            value={this.state.username}
           />
           <Input
             placeholder='Password'
@@ -68,14 +60,19 @@ export default class LoginScreen extends Component{
             leftIcon={{type: 'font-awesome', name:'lock', size:wp('7%'), color:'gray' }}
             inputStyle={{color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%')}}
             containerStyle={{width: wp('83%'), marginVertical: wp('6%'),}}
+            onChangeText={input => this.setState({password: input})}
+            value={this.state.password}
           />
           
           <Button
             title="LOGIN"
-            type='outline'
+            type='outline' 
+            loading  = {this.state.isLoading}
+            disabled  = {this.state.isLoading}
+            loadingProps={{color:'#fff'}}
             titleStyle={styles.loginButtonTitle}
             buttonStyle ={styles.loginButton}
-            onPress={() => navigate('MainDrawerNav')} 
+            onPress={() => this.login()} 
           />
           <Button 
             title="Forgot Password?" 
@@ -105,7 +102,58 @@ export default class LoginScreen extends Component{
       </ImageBackground>
     );
   }
+
+  login = async () =>{
+    this.setState({isLoading: true})
+
+    let username = this.state.username
+    let password = this.state.password
+    if(username.trim() === "" || password.trim() === ""){
+      alert("All fields are required")
+      this.setState({isLoading: false})
+    }else{
+      const apiurl = global.url+'login.php'
+      try {
+        const response = await fetch(apiurl, {
+          //handle post data
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: 'login',
+            username: username,
+            password: password,
+          })
+        });
+        const res = await response.json();
+        if (res.success) {
+          const user = res.message[0];
+          const userid = user.userid;
+          await storeData('userid', userid.toString());
+          await storeData('fullname', user.fullname);
+          await storeData('displayname', user.displayname);
+          await storeData('phone', user.phone);
+          await storeData('email', user.email);
+          await storeData('location', user.location);
+          await storeData('photourl', user.photourl);
+          this.setState({isLoading: false})
+          this.props.navigation.navigate('MainDrawerNav');
+        }
+        else {
+          //console.log(res.message)
+          alert(res.message);
+          this.setState({isLoading: false});
+        }
+      }
+      catch (err) {
+        return console.log(err);
+      }
+    }
+  }
 }
+
 
 const styles = StyleSheet.create({
   appContainer: {

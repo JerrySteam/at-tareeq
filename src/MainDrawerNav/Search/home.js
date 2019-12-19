@@ -126,6 +126,7 @@ const users = [
     thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
   },
 ]
+
 export class AppSearchBar extends React.Component {
   state = {
     search: '',

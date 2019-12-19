@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, } from 'react-native';
+import { View, StyleSheet, Image, Text, AsyncStorage} from 'react-native';
 import { Icon, Avatar } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Divider} from './navigationdrawerstructure';
- 
+
 export default class CustomSidebarMenu extends Component {
   constructor() {
     super();
@@ -55,7 +55,26 @@ export default class CustomSidebarMenu extends Component {
         screenToNavigate: 'SettingsDrawer',
       },
     ];
+    this.state = {
+      fullname: null,
+      photourl: null
+    }
   }
+  componentDidMount(){
+    this.loadInitialState().done();
+  }
+
+  loadInitialState = async () =>{
+    const fullname = await retrieveData('fullname');
+    const photourl = await retrieveData('photourl');
+    if (fullname !== null) {
+      this.setState({
+        fullname:fullname,
+        photourl: photourl
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.sideMenuContainer}>
@@ -63,10 +82,10 @@ export default class CustomSidebarMenu extends Component {
         <Avatar 
           rounded 
           size={wp('22%')} 
-          source={{uri:'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',}} 
+          source={{uri: this.state.photourl,}} 
           containerStyle={{marginVertical:wp('5%')}}
         />
-        <Text>AHMAD IDRIS</Text>
+        <Text>{this.state.fullname}</Text>
         {/*Divider between Top Image and Sidebar Option*/}
         <Divider/>
 

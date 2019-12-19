@@ -1,8 +1,9 @@
 import React, { Component }  from 'react';
 import { StyleSheet,} from 'react-native';
-import Constants from 'expo-constants';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import './src/constants';
+import './src/helperfunctions';
 
 import IndexScreen from './src';
 
