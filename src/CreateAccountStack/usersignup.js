@@ -11,6 +11,7 @@ export default class UserSignupScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isReady: false,
       fullname: '',
       phone: '',
       email: '',
@@ -72,7 +73,7 @@ export default class UserSignupScreen extends Component {
               placeholder='Name'
               leftIcon={{ type: 'font-awesome', name: 'user', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('4%') }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('4%') }}
               onChangeText={input => this.setState({ fullname: input })}
               value={this.state.fullname}
             />
@@ -82,7 +83,7 @@ export default class UserSignupScreen extends Component {
               maxLength={20}
               leftIcon={{ type: 'font-awesome', name: 'phone', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('5%') }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
               onChangeText={input => this.setState({ phone: input })}
               value={this.state.phone}
             />
@@ -90,7 +91,7 @@ export default class UserSignupScreen extends Component {
               placeholder='Email (optional)'
               leftIcon={{ type: 'font-awesome', name: 'envelope', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('5%') }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
               onChangeText={input => this.setState({ email: input })}
               value={this.state.email}
             />
@@ -98,7 +99,7 @@ export default class UserSignupScreen extends Component {
               placeholder='Location'
               leftIcon={{ type: 'font-awesome', name: 'map-pin', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('5%') }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
               onChangeText={input => this.setState({ location: input })}
               value={this.state.location}
             />
@@ -107,7 +108,7 @@ export default class UserSignupScreen extends Component {
               secureTextEntry={true}
               leftIcon={{ type: 'font-awesome', name: 'lock', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%') }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('5%'), }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
               onChangeText={input => this.setState({ password: input })}
               value={this.state.password}
             />
@@ -116,7 +117,7 @@ export default class UserSignupScreen extends Component {
               secureTextEntry={true}
               leftIcon={{ type: 'font-awesome', name: 'lock', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%') }}
-              containerStyle={{ width: wp('83%'), marginTop: wp('5%'), }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
               onChangeText={input => this.setState({ cpassword: input })}
               value={this.state.cpassword}
             />
@@ -127,7 +128,7 @@ export default class UserSignupScreen extends Component {
               buttonStyle={styles.loginButton}
               loading={this.state.isLoading}
               disabled={this.state.isLoading}
-              loadingProps={{ color: '#fff' }}
+              loadingProps={{ color: '#000' }}
               //icon={{name: "location-arrow", size: wp('5%'), color: "white"}}
               onPress={() => this.createAccount()}
             />

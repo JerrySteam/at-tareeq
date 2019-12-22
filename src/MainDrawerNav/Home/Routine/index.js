@@ -1,15 +1,26 @@
 import { createStackNavigator } from 'react-navigation-stack';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 import Lecture from './lectures';
-/*
-export default createStackNavigator({
-  Lecture,
-},{headerMode:'none'});
-*/
+import LecturedDesc from './description';
+
 const RoutineTaleemStack = createStackNavigator({
   Lecture: {
     screen: Lecture,
     navigationOptions: ({ navigation }) => ({
       header: null
+    }),
+  },
+  LectureDescription: {
+    screen: LecturedDesc,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerStyle: {
+        marginTop: wp('-6%'),
+        marginBottom: wp('-3%'),
+      },
+      headerTransparent: true,
+      headerTintColor: '#fff',
     }),
   },
 },{headerMode:'screen'});

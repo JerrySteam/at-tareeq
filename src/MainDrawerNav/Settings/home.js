@@ -102,7 +102,7 @@ class Home extends Component {
             title='LOGOUT'
             loading={this.state.isLoading}
             disabled={this.state.isLoading}
-            loadingProps={{ color: '#fff' }}
+            loadingProps={{ color: '#000' }}
             buttonStyle={styles.logoutButton}
             containerStyle={{ alignItems: 'center' }}
             onPress={() => this.onLogoutPress(this.props.navigation.navigate)}

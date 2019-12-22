@@ -41,9 +41,26 @@ class LectureScreen extends Component {
         <ListItem
           title={item.topic}
           titleStyle={{ color: '#fff', fontSize: wp('3.5%'), fontWeight: 'bold' }}
-          subtitle={<ItemSubtitle speaker={item.speaker} location={item.location} date={item.dayordate} time={item.time} />}
+          subtitle={
+            <ItemSubtitle 
+              speaker={item.speaker} 
+              location={item.location} 
+              date={item.dayordate} 
+              time={item.time} 
+            />
+          }
           leftAvatar={{ source: { uri: item.speakerphotourl }, size: wp('24%'), imageProps: { borderRadius: wp('100%'), PlaceholderContent: <ActivityIndicator /> } }}
           containerStyle={{ backgroundColor: 'transparent', padding: wp('2.5%'), }}
+          onPress={() => this.props.navigation.navigate('LectureDescription', {
+            lectureid: item.lectureid,
+            topic: item.topic,
+            speaker: item.speaker,
+            location: item.location,
+            date: item.dayordate,
+            time: item.time,
+            briefinfo: item.briefinfo,
+            photourl: item.speakerphotourl,
+          })}
         />
       </ImageBackground>
     </View>
