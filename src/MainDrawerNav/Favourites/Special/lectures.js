@@ -3,188 +3,170 @@ import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, Scrol
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 //import Icon from 'react-native-vector-icons/FontAwesome';
-const users = [
-  {
-    title: 'The Four Caliphs 1',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 2',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Wednesday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 3',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 4',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 5',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 6',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 7',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 8',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 9',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  },
-]
+
 //the class below requires
 class SpecialLecture extends Component {
   render() {
     return (
-      <View style={styles.favouriteSLWrapper}>
-        <View style={styles.favouriteSLContainer}>
-          <View style={styles.favouriteSLThumbnailContainer}>
+      <View style={styles.favouriteRTWrapper}>
+        <View style={styles.favouriteRTContainer}>
+          <View style={styles.favouriteRTThumbnailContainer}>
             <Image
               source={{ uri: this.props.thumbnail }}
-              style={styles.favouriteSLThumbnail}
+              style={styles.favouriteRTThumbnail}
               PlaceholderContent={<ActivityIndicator />}
             />
           </View>
-          <View style={styles.favouriteSLContent}>
-            <Text style={styles.favouriteSLSpeaker}>{this.props.speaker} </Text>
-            <Text style={styles.favouriteSLTitle}>{this.props.title}</Text>
-            <Text style={styles.favouriteSLSubtitle}>{this.props.location} </Text>
-            <Text style={styles.favouriteSLSubtitle}>{this.props.date}</Text>
-            <Text style={styles.favouriteSLSubtitle}>{this.props.time}</Text>
+          <View style={styles.favouriteRTContent}>
+            <Text style={styles.favouriteRTSpeaker}>{this.props.speaker} </Text>
+            <Text style={styles.favouriteRTTitle}>{this.props.title}</Text>
+            <Text style={styles.favouriteRTSubtitle}>{this.props.location} </Text>
+            <Text style={styles.favouriteRTSubtitle}>{this.props.time} ({this.props.date})</Text>
           </View>
         </View>
         <Button
-          buttonStyle={styles.favouriteSLRemoveButton}
-          title='REMOVE' />
+          buttonStyle={styles.favouriteRTRemoveButton}
+          title='REMOVE'
+          onPress = {() => this.props.removeFavourite(this.props.lectureid)}
+        />
       </View>
     );
   }
+
+  
 }
 class LectureScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routineTaleems: [],
+      loading: true,
+      refreshing: false,
+    }
+  }
+  componentDidMount(){
+    this.loadInitialState().done();
+  }
+
+  loadInitialState = async () =>{
+    //Get username from AsyncStorage
+    const routineTaleems = await this.getSpecialLecture();
+    this.setState({
+      routineTaleems:routineTaleems,
+      loading: false,
+      refreshing: false,
+    });
+  }
+
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.loadInitialState().done;
+  }
+
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <SpecialLecture 
-      thumbnail={item.thumbnail}
+      thumbnail={item.speakerphotourl}
       speaker={item.speaker} 
-      title={item.title}
+      title={item.topic}
       location={item.location} 
-      date={item.date} 
+      date={item.dayordate} 
       time={item.time}
+      lectureid={item.lectureid}
+      removeFavourite = {this.removeFavourite}
     />
   )
   render() {
+    if(this.state.loading) { 
+      return (
+      	<ActivityIndicator size="large" color="#e2e2e2" style={{flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',}}/>
+      ); 
+    }
+
+    if (!this.state.routineTaleems.success) {
+      return (
+        <View style={{alignItems:'center', marginTop: wp('50%')}}>
+          <Text>{this.state.routineTaleems.message}</Text>
+          <TouchableOpacity onPress={() => this.onRefresh()}>
+            <Text>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     return (
       <FlatList
         keyExtractor={this.keyExtractor}
-        data={users}
+        data={this.state.routineTaleems.message}
         renderItem={this.renderItem}
         numColumns={2}
+        refreshing = {this.state.refreshing}
+        onRefresh = {() => this.onRefresh()}
       />
     );
+  }
+
+  getSpecialLecture = async() => {
+    const apiurl = global.url + 'favouritespeciallectures.php';
+    const userid = await retrieveData('userid');
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      //console.log(res)
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  removeFavourite = async(lectureid) => {
+    const apiurl = global.url + 'removefavourite.php';
+    const userid = await retrieveData('userid');
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lectureid: lectureid,
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      console.log(res.message);
+      this.onRefresh();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 }
 
 const styles = StyleSheet.create({
-  favouriteSLWrapper: {
+  favouriteRTWrapper: {
     backgroundColor: '#E4E9ED',
     paddingHorizontal: wp('2%'),
     paddingTop: wp('2%'),
     width: wp('50%')
   },
-  favouriteSLContainer: {
+  favouriteRTContainer: {
     flex: 1,
     width: '100%',
     height: '100%',
@@ -193,34 +175,34 @@ const styles = StyleSheet.create({
     borderTopRightRadius: wp('2%'),
     borderTopLeftRadius: wp('2%'),
   },
-  favouriteSLThumbnailContainer: {
+  favouriteRTThumbnailContainer: {
     flex: 1,
     alignItems: 'center',
     paddingTop: wp('5%')
   },
-  favouriteSLThumbnail: {
+  favouriteRTThumbnail: {
     width: wp('22%'),
     height: wp('22%'),
     borderRadius: wp('100%'),
   },
-  favouriteSLContent: {
+  favouriteRTContent: {
     padding: wp('3%'),
   },
-  favouriteSLSpeaker: {
+  favouriteRTSpeaker: {
     fontSize: wp('3%'),
     color: '#fff',
     textTransform:'uppercase',
     paddingBottom: wp('1%'),
   },
-  favouriteSLTitle: {
+  favouriteRTTitle: {
     fontSize: wp('3%'),
     color: '#fff'
   },
-  favouriteSLSubtitle: {
+  favouriteRTSubtitle: {
     fontSize: wp('2.5%'),
     color: '#fff'
   },
-  favouriteSLRemoveButton: {
+  favouriteRTRemoveButton: {
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,

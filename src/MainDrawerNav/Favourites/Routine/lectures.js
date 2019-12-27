@@ -3,128 +3,7 @@ import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, Scrol
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 //import Icon from 'react-native-vector-icons/FontAwesome';
-const users = [
-  {
-    title: 'The Four Caliphs 1',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 2',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Wednesday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 3',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 4',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 5',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 6',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 7',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 8',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs 9',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  },
-]
+
 //the class below requires
 class RoutineTaleemLecture extends Component {
   render() {
@@ -147,32 +26,136 @@ class RoutineTaleemLecture extends Component {
         </View>
         <Button
           buttonStyle={styles.favouriteRTRemoveButton}
-          title='REMOVE' />
+          title='REMOVE'
+          onPress = {() => this.props.removeFavourite(this.props.lectureid)}
+        />
       </View>
     );
   }
+
+  
 }
 class LectureScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      routineTaleems: [],
+      loading: true,
+      refreshing: false,
+    }
+  }
+  componentDidMount(){
+    this.loadInitialState().done();
+  }
+
+  loadInitialState = async () =>{
+    //Get username from AsyncStorage
+    const routineTaleems = await this.getRoutineTaleem();
+    this.setState({
+      routineTaleems:routineTaleems,
+      loading: false,
+      refreshing: false,
+    });
+  }
+
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.loadInitialState().done;
+  }
+
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <RoutineTaleemLecture 
-      thumbnail={item.thumbnail}
+      thumbnail={item.speakerphotourl}
       speaker={item.speaker} 
-      title={item.title}
+      title={item.topic}
       location={item.location} 
-      date={item.date} 
+      date={item.dayordate} 
       time={item.time}
+      lectureid={item.lectureid}
+      removeFavourite = {this.removeFavourite}
     />
   )
   render() {
+    if(this.state.loading) { 
+      return (
+      	<ActivityIndicator size="large" color="#e2e2e2" style={{flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',}}/>
+      ); 
+    }
+
+    if (!this.state.routineTaleems.success) {
+      return (
+        <View style={{alignItems:'center', marginTop: wp('50%')}}>
+          <Text>{this.state.routineTaleems.message}</Text>
+          <TouchableOpacity onPress={() => this.onRefresh()}>
+            <Text>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     return (
       <FlatList
         keyExtractor={this.keyExtractor}
-        data={users}
+        data={this.state.routineTaleems.message}
         renderItem={this.renderItem}
         numColumns={2}
+        refreshing = {this.state.refreshing}
+        onRefresh = {() => this.onRefresh()}
       />
     );
+  }
+
+  getRoutineTaleem = async() => {
+    const apiurl = global.url + 'favouriteroutinetaleem.php';
+    const userid = await retrieveData('userid');
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      //console.log(res)
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  removeFavourite = async(lectureid) => {
+    const apiurl = global.url + 'removefavourite.php';
+    const userid = await retrieveData('userid');
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lectureid: lectureid,
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      console.log(res.message);
+      this.onRefresh();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 }
 

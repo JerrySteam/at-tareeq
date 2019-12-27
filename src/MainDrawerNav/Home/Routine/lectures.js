@@ -21,6 +21,8 @@ class LectureScreen extends Component {
     super(props);
     this.state = {
       routineTaleems: [],
+      loading: true,
+      refreshing: false,
     }
   }
   componentDidMount(){
@@ -32,8 +34,16 @@ class LectureScreen extends Component {
     const routineTaleems = await this.getRoutineTaleem();
     this.setState({
       routineTaleems:routineTaleems,
+      loading: false,
+      refreshing: false,
     });
   }
+
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.loadInitialState().done;
+  }
+
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <View style={{ backgroundColor: '#fff', paddingHorizontal: wp('2%'), paddingTop: wp('2%'), }}>
@@ -66,9 +76,22 @@ class LectureScreen extends Component {
     </View>
   )
   render() {
+    if(this.state.loading) { 
+      return (
+      	<ActivityIndicator size="large" color="#e2e2e2" style={{flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',}}/>
+      ); 
+    }
+
     if (!this.state.routineTaleems.success) {
       return (
-        <View>{this.state.routineTaleems.message}</View>
+        <View style={{alignItems:'center', marginTop: wp('50%')}}>
+          <Text>{this.state.routineTaleems.message}</Text>
+          <TouchableOpacity onPress={() => this.onRefresh()}>
+            <Text>Refresh</Text>
+          </TouchableOpacity>
+        </View>
       )
     }
     return (
@@ -76,6 +99,8 @@ class LectureScreen extends Component {
         keyExtractor={this.keyExtractor}
         data={this.state.routineTaleems.message}
         renderItem={this.renderItem}
+        refreshing = {this.state.refreshing}
+        onRefresh = {() => this.onRefresh()}
       />
     );
   }

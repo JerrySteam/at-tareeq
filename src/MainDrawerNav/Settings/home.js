@@ -9,35 +9,65 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userid: null,
       fullname: null,
+      displayname: null,
+      phone: null,
+      email: null,
+      location: null,
       photourl: null,
       isLoading: false,
+      mosquelocation: null,
+      mosquename: null,
+      mosquemessage: null
     }
   }
+  
   componentDidMount() {
     this.loadInitialState().done();
   }
 
   loadInitialState = async () => {
-    //Get username from AsyncStorage
+    //Get user info from AsyncStorage
+    const userid = await retrieveData('userid');
     const fullname = await retrieveData('fullname');
+    const displayname = await retrieveData('displayname');
+    const phone = await retrieveData('phone');
+    const email = await retrieveData('email');
+    const location = await retrieveData('location');
     const photourl = await retrieveData('photourl');
+
     if (fullname !== null) {
       this.setState({
+        userid: userid,
         fullname: fullname,
-        photourl: photourl
+        displayname: displayname,
+        phone: phone,
+        email: email,
+        location: location,
+        photourl: photourl,
+      });
+    }
+
+    const mosqueinfo = await this.getMosqueInfo(userid)
+    const mosqueadmininfo = mosqueinfo.message
+
+    if (mosqueinfo.success) {
+      this.setState({
+        mosquelocation: mosqueadmininfo[0].location,
+        mosquename: mosqueadmininfo[0].mosquename,
+      });
+    } else {
+      this.setState({
+        mosquemessage: mosqueadmininfo
       });
     }
   }
+
   render() {
     return (
       <ScrollView>
         <View style={styles.profileThumbnailContainer}>
-          {/*<Image
-            source={{ uri: this.state.photourl }}
-            style={styles.profileThumbnail}
-            PlaceholderContent={<ActivityIndicator />}
-          />*/}
           <Avatar
             rounded
             size={wp('30%')}
@@ -52,11 +82,24 @@ class Home extends Component {
             titleStyle={styles.cardTitle}
             dividerStyle={{ height: 0 }}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile")}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile",{
+              userid: this.state.userid,
+              fullname: this.state.fullname,
+              displayname: this.state.displayname,
+              phone: this.state.phone,
+              email: this.state.email,
+              location: this.state.location,
+              photourl: this.state.photourl,
+            })}>
               <Text style={styles.settingsText}>Edit Profile</Text>
             </TouchableOpacity>
             <Divider style={{ marginVertical: wp('4%') }}></Divider>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditMajorProfile")}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditMajorProfile",{
+              userid: this.state.userid,
+              mosquelocation: this.state.mosquelocation,
+              mosquename: this.state.mosquename,
+              mosquemessage: this.state.mosquemessage,
+            })}>
               <Text style={styles.settingsText}>Edit Mosque, Organization, Location</Text>
             </TouchableOpacity>
           </Card>
@@ -115,6 +158,29 @@ class Home extends Component {
   onLogoutPress = (param) => {
     this.setState({ isLoading: true })
     logout(param)
+  }
+
+  getMosqueInfo = async (userid) => {
+    const apiurl = global.url + 'getadminmosque.php'
+    const formData = new FormData()
+    formData.append('userid', userid)
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData
+      });
+
+      const res = await response.json();
+      return res
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 }
 

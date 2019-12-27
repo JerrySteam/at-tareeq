@@ -1,21 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, View, KeyboardAvoidingView, ScrollView, Picker, ActivityIndicator } from 'react-native';
+import { StyleSheet, Image, View, KeyboardAvoidingView, ScrollView, Picker, ActivityIndicator, Text } from 'react-native';
 import { Button, Input, Card } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const user = [
-  {
-    name: 'Ahmad Idris',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg',
-    displayname: 'AI',
-    phone: '07012345678',
-    email: 'ahmadai@gmail.com',
-    location: 'Abuja',
-    mosque: 'Sidi Bashir Mosque'
-  }
-]
+
 class EditMajorProfile extends Component {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    this.state = {
+      isLoading: false,
+      userid: navigation.getParam('userid', null),
+      mosquelocation: navigation.getParam('mosquelocation', null),
+      mosquename: navigation.getParam('mosquename', null),
+      mosquemessage: navigation.getParam('mosquemessage', null)
+    }
+  }
+
   render() {
+    if (this.state.mosquemessage !== null) {
+      return (
+        <View>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+            <Text>{this.state.mosquemessage}</Text>
+          </View>
+        </View>
+      )
+    }
     return (
       <View>
         <KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={100}>
@@ -27,7 +38,8 @@ class EditMajorProfile extends Component {
               leftIcon={{ type: 'font-awesome', name: 'map-pin', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('8%') }}
-              value={user[0].location }
+              onChangeText={input => this.setState({ mosquelocation: input })}
+              value={this.state.mosquelocation}
             />
             <Input
               label='Edit Mosque/Organization'
@@ -36,19 +48,62 @@ class EditMajorProfile extends Component {
               leftIcon={{ type: 'font-awesome', name: 'globe', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
-              value={user[0].mosque }
+              onChangeText={input => this.setState({ mosquename: input })}
+              value={this.state.mosquename}
             />
-            
+
             <Button
               title="SUBMIT"
               titleStyle={styles.loginButtonTitle}
               buttonStyle={styles.loginButton}
-              onPress={() => navigate('Index')}
+              onPress={() => this.updateMajorProfile()}
             />
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
     );
+  }
+
+  updateMajorProfile = async () => {
+    this.setState({ isLoading: true })
+
+    const userid = this.state.userid
+    const mosquelocation = this.state.mosquelocation.trim()
+    const mosquename = this.state.mosquename.trim()
+
+    if (mosquelocation === "" || mosquename === "") {
+      alert("Please all fields are required")
+      this.setState({ isLoading: false })
+    } else {
+      const apiurl = global.url + 'editmajorprofile.php'
+      const formData = new FormData()
+
+      formData.append('userid', userid)
+      formData.append('mosquelocation', mosquelocation)
+      formData.append('mosquename', mosquename)
+      
+      try {
+        const response = await fetch(apiurl, {
+          //handle post data
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: formData
+        });
+
+        //const res = await response.text();
+        //console.log(res)
+        //this.setState({ isLoading: false })
+        const res = await response.json();
+        alert(res.message)
+        this.setState({ isLoading: false })
+        
+      }
+      catch (err) {
+        return console.log(err);
+      }
+    }
   }
 }
 

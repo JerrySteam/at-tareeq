@@ -20,6 +20,8 @@ class LectureScreen extends Component {
     super(props);
     this.state = {
       specialLectures: [],
+      loading: true,
+      refreshing: false,
     }
   }
   componentDidMount(){
@@ -31,8 +33,16 @@ class LectureScreen extends Component {
     const specialLectures = await this.getSpecialLectures();
     this.setState({
       specialLectures:specialLectures,
+      loading: false,
+      refreshing: false,
     });
   }
+
+  onRefresh = () => {
+    this.setState({refreshing: true});
+    this.loadInitialState().done;
+  }
+
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <View style={{ backgroundColor: '#fff', paddingHorizontal: wp('2%'), paddingTop: wp('2%'), }}>
@@ -65,9 +75,22 @@ class LectureScreen extends Component {
     </View>
   )
   render() {
+    if(this.state.loading) { 
+      return (
+      	<ActivityIndicator size="large" color="#e2e2e2" style={{flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',}}/>
+      ); 
+    }
+
     if (!this.state.specialLectures.success) {
       return (
-        <View>{this.state.specialLectures.message}</View>
+        <View style={{alignItems:'center', marginTop: wp('50%')}}>
+          <Text>{this.state.specialLectures.message}</Text>
+          <TouchableOpacity onPress={() => this.onRefresh()}>
+            <Text>Refresh</Text>
+          </TouchableOpacity>
+        </View>
       )
     }
     return (
@@ -75,6 +98,8 @@ class LectureScreen extends Component {
         keyExtractor={this.keyExtractor}
         data={this.state.specialLectures.message}
         renderItem={this.renderItem}
+        refreshing = {this.state.refreshing}
+        onRefresh = {() => this.onRefresh()}
       />
     );
   }
