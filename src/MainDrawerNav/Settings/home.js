@@ -19,10 +19,13 @@ class Home extends Component {
       isLoading: false,
       mosquelocation: null,
       mosquename: null,
-      mosquemessage: null
+      mosquemessage: null,
+
+      lectureSwitchValue: false,
+      mosqueSwitchValue: false,
     }
   }
-  
+
   componentDidMount() {
     this.loadInitialState().done();
   }
@@ -62,8 +65,14 @@ class Home extends Component {
         mosquemessage: mosqueadmininfo
       });
     }
-  }
 
+    const lsv = await this.getLectureSwitchValue()
+    const msv = await this.getMosqueSwitchValue()
+    this.setState({
+      lectureSwitchValue: lsv,
+      mosqueSwitchValue: msv,
+    });
+  }
   render() {
     return (
       <ScrollView>
@@ -82,7 +91,7 @@ class Home extends Component {
             titleStyle={styles.cardTitle}
             dividerStyle={{ height: 0 }}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile",{
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile", {
               userid: this.state.userid,
               fullname: this.state.fullname,
               displayname: this.state.displayname,
@@ -94,7 +103,7 @@ class Home extends Component {
               <Text style={styles.settingsText}>Edit Profile</Text>
             </TouchableOpacity>
             <Divider style={{ marginVertical: wp('4%') }}></Divider>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditMajorProfile",{
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EditMajorProfile", {
               userid: this.state.userid,
               mosquelocation: this.state.mosquelocation,
               mosquename: this.state.mosquename,
@@ -112,12 +121,18 @@ class Home extends Component {
           >
             <View style={styles.notificationContainer}>
               <Text style={styles.settingsText}>New Lectures</Text>
-              <Switch />
+              <Switch
+                onValueChange={this.toggleLectureSwitch}
+                value={this.state.lectureSwitchValue}
+              />
             </View>
             <Divider style={{ marginVertical: wp('4%') }}></Divider>
             <View style={styles.notificationContainer}>
               <Text style={styles.settingsText}>New Mosques</Text>
-              <Switch />
+              <Switch
+                onValueChange={this.toggleMosqueSwitch}
+                value={this.state.mosqueSwitchValue}
+              />
             </View>
           </Card>
         </View>
@@ -182,6 +197,191 @@ class Home extends Component {
       return console.log(err);
     }
   }
+
+  
+
+  getLectureSwitchValue = async() => {
+    const apiurl = global.url + 'getusernotification.php';
+    const userid = this.state.userid
+    const notid = '1'
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+          userid: userid,
+          notid: notid
+        }),
+      });
+      const res = await response.json();
+      //console.log(res)
+      return res.success;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  toggleLectureSwitch = async(value) => {
+    if (this.state.lectureSwitchValue) {
+      this.setState({ lectureSwitchValue: value })
+      const res = await this.removeLectureNotification();
+      res.success ? console.log("Lectures notification removed") : alert(res.message);
+    } else {
+      this.setState({ lectureSwitchValue: value })
+      const res = await this.addLectureNotification();
+      res.success ? console.log("Lectures notification added") : alert(res.message);
+    }
+  }
+
+  addLectureNotification = async() => {
+    const apiurl = global.url + 'addusernotification.php';
+    const userid = this.state.userid
+    const notid = '1'
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+          notid: notid,
+        })
+      });
+      const res = await response.json();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  removeLectureNotification = async() => {
+    const apiurl = global.url + 'removeusernotification.php';
+    const userid = this.state.userid
+    const notid = '1'
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+          notid: notid,
+        })
+      });
+      const res = await response.json();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  
+
+
+
+  getMosqueSwitchValue = async() => {
+    const apiurl = global.url + 'getusernotification.php';
+    const userid = this.state.userid
+    const notid = '2'
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+          userid: userid,
+          notid: notid
+        }),
+      });
+      const res = await response.json();
+      //console.log(res)
+      return res.success;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  toggleMosqueSwitch = async(value) => {
+    if (this.state.mosqueSwitchValue) {
+      this.setState({ mosqueSwitchValue: value })
+      const res = await this.removeMosqueNotification();
+      res.success ? console.log("Mosque notification removed") : alert(res.message);
+    } else {
+      this.setState({ mosqueSwitchValue: value })
+      const res = await this.addMosqueNotification();
+      res.success ? console.log("Mosque notification added") : alert(res.message);
+    }
+  }
+
+  addMosqueNotification = async() => {
+    const apiurl = global.url + 'addusernotification.php';
+    const userid = this.state.userid
+    const notid = '2'
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+          notid: notid,
+        })
+      });
+      const res = await response.json();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  removeMosqueNotification = async() => {
+    const apiurl = global.url + 'removeusernotification.php';
+    const userid = this.state.userid
+    const notid = '2'
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+          notid: notid,
+        })
+      });
+      const res = await response.json();
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
 }
 
 const styles = StyleSheet.create({
