@@ -142,7 +142,9 @@ class Home extends Component {
             titleStyle={styles.cardTitle}
             dividerStyle={{ height: 0 }}
           >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("Feedback")}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("Feedback", {
+              userid: this.state.userid,
+            })}>
               <Text style={styles.settingsText}>Send Feedback</Text>
             </TouchableOpacity>
             <Divider style={{ marginVertical: wp('4%') }}></Divider>
@@ -198,8 +200,7 @@ class Home extends Component {
     }
   }
 
-  
-
+  /***Start lecture switch */
   getLectureSwitchValue = async() => {
     const apiurl = global.url + 'getusernotification.php';
     const userid = this.state.userid
@@ -288,11 +289,9 @@ class Home extends Component {
       return console.log(err);
     }
   }
+  /***End lecture switch */
 
-  
-
-
-
+  /***Start mosque switch */
   getMosqueSwitchValue = async() => {
     const apiurl = global.url + 'getusernotification.php';
     const userid = this.state.userid
@@ -381,7 +380,7 @@ class Home extends Component {
       return console.log(err);
     }
   }
-
+  /***End mosque switch */
 }
 
 const styles = StyleSheet.create({
@@ -431,6 +430,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
 });
-
 
 export default Home;
