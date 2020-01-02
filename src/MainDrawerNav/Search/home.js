@@ -1,131 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ScrollView, FlatList, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ScrollView, FlatList, Picker,ActivityIndicator } from 'react-native';
 import { Card, ListItem, Button, Icon, SearchBar } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 //import Icon from 'react-native-vector-icons/FontAwesome';
-
-const users = [
-  {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Wednesday, Friday, Sunday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Saturday, Sunday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  }, {
-    title: 'The Four Caliphs',
-    speaker: 'Malam Aminu Daurawa',
-    location: 'No 5 Zaria Close, Fagge, Kano',
-    time: '02:00pm - 05:00pm',
-    date: 'Monday, Thursday',
-    thumbnail: 'https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg'
-  },
-]
 
 export class AppSearchBar extends React.Component {
   state = {
@@ -167,32 +44,91 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isReady: false,
       category: '',
+      specialLectures: [],
+      loading: true,
+      refreshing: false,
     };
   }
+
+  componentDidMount() {
+    this.loadInitialState().done();
+  }
+
+  loadInitialState = async () => {
+    //Get username from AsyncStorage
+    const specialLectures = await this.getSpecialLectures();
+    this.setState({
+      specialLectures: specialLectures,
+      loading: false,
+      refreshing: false,
+    });
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.loadInitialState().done;
+  }
+
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <View style={{ backgroundColor: '#fff', paddingHorizontal: wp('2%'), paddingTop: wp('2%'), }}>
       <View style={styles.backgroundImage} borderRadius={wp('2%')}>
         <ListItem
-          title={item.title}
+          title={item.topic}
           titleStyle={{ color: '#000', fontSize: wp('3.5%'), fontWeight: 'bold' }}
-          subtitle={<ItemSubtitle speaker={item.speaker} location={item.location} date={item.date} time={item.time} />}
-          leftAvatar={{ source: { uri: item.thumbnail }, size: wp('24%'), imageProps: { borderRadius: wp('100%') } }}
+          subtitle={
+            <ItemSubtitle
+              speaker={item.speaker}
+              location={item.location}
+              date={item.dayordate}
+              time={item.time}
+            />
+          }
+          leftAvatar={{ source: { uri: item.speakerphotourl }, size: wp('24%'), imageProps: { borderRadius: wp('100%'), PlaceholderContent: <ActivityIndicator /> } }}
           containerStyle={{ backgroundColor: 'transparent', padding: wp('2.5%'), }}
-          onPress={() => this.props.navigation.navigate('LectureDescription')}
+          onPress={() => this.props.navigation.navigate('LectureDescription', {
+            lectureid: item.lectureid,
+            topic: item.topic,
+            speaker: item.speaker,
+            location: item.location,
+            date: item.dayordate,
+            time: item.time,
+            briefinfo: item.briefinfo,
+            photourl: item.speakerphotourl,
+          })}
         />
       </View>
     </View>
   )
   render() {
+    if (this.state.loading) {
+      return (
+        <ActivityIndicator size="large" color="#e2e2e2" style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }} />
+      );
+    }
+
+    if (!this.state.specialLectures.success) {
+      return (
+        <View style={{ alignItems: 'center', marginTop: wp('50%') }}>
+          <Text>{this.state.specialLectures.message}</Text>
+          <TouchableOpacity onPress={() => this.onRefresh()}>
+            <Text>Refresh</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
     return (
       <View>
-        <View style={{backgroundColor:'#2D343E', height:wp('14%'), justifyContent:'center'}}>
+        <View style={{ backgroundColor: '#2D343E', height: wp('14%'), justifyContent: 'center' }}>
           <Picker
-            style={{width: wp('50%'), borderColor: '#fff', color: '#fff', alignSelf:'flex-end', backgroundColor:'#9B9EA3', height:wp('9%'), borderRadius: wp('7%'), marginRight: wp('2%'),}}
-
+            prompt = "Sort items by"
+            style={{ width: wp('50%'), borderColor: '#fff', color: '#fff', alignSelf: 'flex-end', backgroundColor: '#9B9EA3', height: wp('9%'), borderRadius: wp('7%'), marginRight: wp('2%'), }}
             selectedValue={this.state.category}
             onValueChange={(itemValue, itemIndex) =>
               this.setState({ category: itemValue })
@@ -206,15 +142,37 @@ class Home extends Component {
             <Picker.Item label="Mosque" value="mosque" />
           </Picker>
         </View>
-        <View style={{marginBottom:wp('30%')}}>
+        <View style={{ marginBottom: wp('30%') }}>
           <FlatList
             keyExtractor={this.keyExtractor}
-            data={users}
+            data={this.state.specialLectures.message}
             renderItem={this.renderItem}
+            refreshing = {this.state.refreshing}
+            onRefresh = {() => this.onRefresh()}
           />
         </View>
       </View>
     );
+  }
+
+  getSpecialLectures = async () => {
+    const apiurl = global.url + 'getalllectures.php'
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+      const res = await response.json();
+      //console.log(res)
+      return res;
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 }
 

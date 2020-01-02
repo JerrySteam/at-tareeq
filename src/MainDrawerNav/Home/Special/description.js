@@ -132,11 +132,19 @@ class LectureDescScreen extends Component {
 
   onFavouritePress = async() =>{
     if (this.state.isFavourite){
+      this.setState ({isFavourite: false})
       const res = await this.removeFavourite();
-      res.success ? this.setState ({isFavourite: false}) : alert(res.message);
+      if (!res.success) {
+        alert(res.message);
+        this.setState ({isFavourite: true})
+      } 
     }else{
+      this.setState ({isFavourite: true})
       const res = await this.addFavourite();
-      (res.success) ? this.setState ({isFavourite: true}) : alert(res.message);
+      if (!res.success) {
+        alert(res.message);
+        this.setState ({isFavourite: false})
+      }
     }
   }
 
@@ -220,11 +228,20 @@ class LectureDescScreen extends Component {
 
   onNotificationPress = async() =>{
     if (this.state.isNotification){
+      this.setState ({isNotification: false})
       const res = await this.removeNotification();
-      res.success ? this.setState ({isNotification: false}) : alert(res.message)
+      if (!res.success) {
+        alert(res.message)
+        this.setState ({isNotification: true})
+      }
+      
     }else{
+      this.setState ({isNotification: true})
       const res = await this.addNotification();
-      res.success ? this.setState ({isNotification: true}) : alert(res.message)
+      if (!res.success) {
+        alert(res.message)
+        this.setState ({isNotification: false})
+      }
     }
   }
 

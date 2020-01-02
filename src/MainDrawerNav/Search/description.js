@@ -42,7 +42,7 @@ class LectureDescScreen extends Component {
 
   render() {
     return (
-      <ImageBackground style={styles.backgroundImage} source={require('../../../../backgroundimage/description.jpg')}>
+      <ImageBackground style={styles.backgroundImage} source={require('../../../backgroundimage/description.jpg')}>
         <View>
           <ScrollView>
             <View style={styles.lectureTitleBox}>
@@ -198,6 +198,7 @@ class LectureDescScreen extends Component {
       return console.log(err);
     }
   }
+
 
   isNotification = async() =>{
     const apiurl = global.url + 'isnotification.php';

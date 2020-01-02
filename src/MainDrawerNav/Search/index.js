@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import NavigationDrawerStructure from '../navigationdrawerstructure'
 import HomeScreen, {AppSearchBar} from './home';
+import LecturedDesc from './description';
 
 const SearchScreens = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
@@ -16,6 +17,18 @@ const SearchScreens = createStackNavigator({
       headerStyle: {
         backgroundColor: '#052742',
       },
+      headerTintColor: '#fff',
+    }),
+  },
+  LectureDescription: {
+    screen: LecturedDesc,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerStyle: {
+        marginTop: wp('-6%'),
+        marginBottom: wp('-3%'),
+      },
+      headerTransparent: true,
       headerTintColor: '#fff',
     }),
   }, 
