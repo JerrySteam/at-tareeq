@@ -17,7 +17,8 @@ const HomeScreens = createStackNavigator({
   Home: {
     screen: HomeScreenTabHelper,
     navigationOptions: ({ navigation }) => ({
-      headerTitle: <HomeSearchButton/>,
+      //headerTitle: <HomeSearchButton/>,
+      headerTitle: "Home",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />  ,
       headerStyle: {
         backgroundColor: '#052742',

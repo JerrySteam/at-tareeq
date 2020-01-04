@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ScrollView, FlatList, Picker,ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ScrollView, FlatList, Picker, ActivityIndicator } from 'react-native';
 import { Card, ListItem, Button, Icon, SearchBar } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-//import Icon from 'react-native-vector-icons/FontAwesome';
+import RNPickerSelect from 'react-native-picker-select';
 
 export class AppSearchBar extends React.Component {
   state = {
@@ -28,6 +28,7 @@ export class AppSearchBar extends React.Component {
     );
   }
 }
+
 class ItemSubtitle extends Component {
   render() {
     return (
@@ -48,7 +49,14 @@ class Home extends Component {
       specialLectures: [],
       loading: true,
       refreshing: false,
+      search : '',
+      showLoading : false,
     };
+    this.arrayholder = [];
+    this.routine = [];
+    this.special = [];
+    this.speaker = [];
+    this.mosque = [];
   }
 
   componentDidMount() {
@@ -57,12 +65,21 @@ class Home extends Component {
 
   loadInitialState = async () => {
     //Get username from AsyncStorage
+   
     const specialLectures = await this.getSpecialLectures();
+    this.routine = await Promise.all(this.arrayholder.message.filter(a => a.categoryid === 1))
+    this.special = await Promise.all(this.arrayholder.message.filter(a => a.categoryid === 2))
+    this.speaker = await Promise.all(this.arrayholder.message.sort((a, b) => (a.speaker > b.speaker) ? 1 : -1))
+    this.mosque = await Promise.all(this.arrayholder.message.sort((a, b) => (a.location > b.location) ? 1 : -1))
+
+    //<AppSearchBar lectures ={specialLectures} />
     this.setState({
       specialLectures: specialLectures,
       loading: false,
       refreshing: false,
     });
+
+
   }
 
   onRefresh = () => {
@@ -85,7 +102,7 @@ class Home extends Component {
               time={item.time}
             />
           }
-          leftAvatar={{ source: { uri: item.speakerphotourl }, size: wp('24%'), imageProps: { borderRadius: wp('100%'), PlaceholderContent: <ActivityIndicator /> } }}
+          leftAvatar={{ source: { uri: item.speakerphotourl }, size: wp('24%'), imageProps: { borderRadius: wp('100%'), } }}
           containerStyle={{ backgroundColor: 'transparent', padding: wp('2.5%'), }}
           onPress={() => this.props.navigation.navigate('LectureDescription', {
             lectureid: item.lectureid,
@@ -101,6 +118,20 @@ class Home extends Component {
       </View>
     </View>
   )
+  renderHeader = () => {    
+    return (      
+      <SearchBar        
+        placeholder="Type Here..."        
+        lightTheme        
+        round        
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+        showLoading = {this.state.showLoading} 
+        value={this.state.search}            
+      />    
+    );  
+  };
+
   render() {
     if (this.state.loading) {
       return (
@@ -126,29 +157,36 @@ class Home extends Component {
     return (
       <View>
         <View style={{ backgroundColor: '#2D343E', height: wp('14%'), justifyContent: 'center' }}>
-          <Picker
-            prompt = "Sort items by"
-            style={{ width: wp('50%'), borderColor: '#fff', color: '#fff', alignSelf: 'flex-end', backgroundColor: '#9B9EA3', height: wp('9%'), borderRadius: wp('7%'), marginRight: wp('2%'), }}
-            selectedValue={this.state.category}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ category: itemValue })
-            }>
-            <Picker.Item label="Sort by..." value="" />
-            <Picker.Item label="All" value="all" />
-            <Picker.Item label="Upcoming Lecture " value="upcoming" />
-            <Picker.Item label="Routine Ta'leem" value="routine" />
-            <Picker.Item label="Special Lecture" value="special" />
-            <Picker.Item label="Speaker" value="speaker" />
-            <Picker.Item label="Mosque" value="mosque" />
-          </Picker>
+          <RNPickerSelect
+            useNativeAndroidPickerStyle={false}
+            disabled = {this.state.loading}
+            style={{
+              inputAndroidContainer: {
+                width: wp('50%'), borderColor: '#fff', alignSelf: 'flex-end', backgroundColor: '#9B9EA3', height: wp('10%'), borderRadius: wp('7%'), marginRight: wp('2%'), paddingHorizontal: wp('5%'), justifyContent: 'center',
+              },
+              inputAndroid: {
+                color: '#fff',
+              },
+            }}
+            value={this.state.category}
+            onValueChange={(value) => this.onPickerValueChange(value)}
+
+            items={[
+              { label: "Routine Ta'leem", value: "routine" },
+              { label: "Special Lecture", value: "special" },
+              { label: "Speaker", value: "speaker" },
+              { label: "Mosque", value: "mosque" },
+            ]}
+          />
         </View>
         <View style={{ marginBottom: wp('30%') }}>
           <FlatList
             keyExtractor={this.keyExtractor}
             data={this.state.specialLectures.message}
             renderItem={this.renderItem}
-            refreshing = {this.state.refreshing}
-            onRefresh = {() => this.onRefresh()}
+            refreshing={this.state.refreshing}
+            onRefresh={() => this.onRefresh()}
+            ListHeaderComponent={this.renderHeader}      
           />
         </View>
       </View>
@@ -168,11 +206,60 @@ class Home extends Component {
       });
       const res = await response.json();
       //console.log(res)
+      this.arrayholder = res;
       return res;
     }
     catch (err) {
       return console.log(err);
     }
+  }
+
+  searchFilterFunction = text => {  
+    this.setState({search: text, showLoading: true})  
+    const newData = this.arrayholder.message.filter(item => {      
+      const itemData = `${item.lectureid}   
+      ${item.categoryid} ${item.topic.toUpperCase()}
+      ${item.speaker.toUpperCase()} ${item.location.toUpperCase()}
+      ${item.briefinfo.toUpperCase()} ${item.speakerphotourl}
+      ${item.datecreated} ${item.createdby}
+      ${item.rowid} ${item.dayordate.toUpperCase()} 
+      ${item.time.toUpperCase()}`;
+      
+       const textData = text.toUpperCase();
+        
+       return itemData.indexOf(textData) > -1;    
+    });
+    
+    this.setState({ specialLectures: {'success':true, 'message':newData}, showLoading: false });  
+  };
+
+  onPickerValueChange = async (value) => {
+    this.setState({ loading: true })
+    this.setState({ category: value })
+    //console.log(value);
+    if (value === null) this.setState({ specialLectures: this.arrayholder})
+    switch (value) {
+      case 'routine':
+        this.setState({ specialLectures: {'success':true, 'message':this.routine} });
+        break;
+
+      case 'special':
+        this.setState({ specialLectures: {'success':true, 'message':this.special} });
+        break;
+
+      case 'speaker':
+        this.setState({ specialLectures: {'success':true, 'message':this.speaker} });
+        break;
+
+      case 'mosque':
+        this.setState({ specialLectures: {'success':true, 'message':this.mosque} });
+        break;
+
+      default:
+        break;
+    }
+    this.setState({ loading: false })
+
   }
 }
 

@@ -12,7 +12,8 @@ const SearchScreens = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
-      headerTitle: <AppSearchBar/>,
+      //headerTitle: <AppSearchBar/>,
+      headerTitle: "Search",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#052742',
