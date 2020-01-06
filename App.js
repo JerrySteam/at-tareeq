@@ -10,6 +10,7 @@ import IndexScreen from './src';
 /**Start Stack Navigation Screen*/
 import LoginScreen from './src/StartStack/login';
 import ForgotPasswordScreen from './src/StartStack/forgotpassword';
+import ResetPasswordScreen from './src/StartStack/resetpassword';
 
 /**Create Account Stack Navigation Screen*/
 import AccountRoleScreen from './src/CreateAccountStack/selectrole';
@@ -21,6 +22,7 @@ import MainDrawerNav from './src/MainDrawerNav'
 const LoginStack = createStackNavigator({
   Login: {screen: LoginScreen,},
   ForgotPassword: {screen: ForgotPasswordScreen,},
+  ResetPassword: {screen: ResetPasswordScreen,},
 },{headerMode: 'screen'})
 
 const AccountStack = createStackNavigator({

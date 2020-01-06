@@ -13,6 +13,8 @@ export default class ForgotPasswordScreen extends Component{
     super(props);
     this.state = {
       isReady: false,
+      email: '',
+      isLoading: false,
     };
   }
   async componentDidMount() {
@@ -48,18 +50,80 @@ export default class ForgotPasswordScreen extends Component{
               leftIcon={{type: 'font-awesome', name:'envelope', size:wp('5%'), color:'gray' }}
               inputStyle={{color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'),}}
               containerStyle={{width: wp('83%'), marginTop:wp('14%')}}
+              onChangeText={input => this.setState({ email: input })}
+              value={this.state.email}
             />
             <Button
               title="SUBMIT"
               type='outline'
               titleStyle={styles.loginButtonTitle}
               buttonStyle ={styles.loginButton}
-              onPress={() => navigate('')}
+              loading={this.state.isLoading}
+              disabled={this.state.isLoading}
+              loadingProps={{ color: '#fff' }}
+              onPress={() => this.resetPassword()}
             />
           </KeyboardAvoidingView>
         </ImageBackground>
     );
   }
+
+  isValidEmail(email) {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (reg.test(email)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  resetPassword = async () => {
+    this.setState({ isLoading: true })
+    const email = this.state.email.trim()
+
+    if (email === "" || !this.isValidEmail(email)) {
+      alert("Please enter a valid email address")
+      this.setState({ isLoading: false })
+    } else {
+      const apiurl = global.url + 'resetpassword.php'
+      const formData = new FormData()
+      formData.append('email', email)
+      formData.append('resetpassword', 'reset')
+
+      try {
+        const response = await fetch(apiurl, {
+          //handle post data
+          method: 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: formData
+        });
+
+        //const res = await response.text();
+        //console.log(res)
+        //this.setState({ isLoading: false })
+        const res = await response.json();
+        if (res.success) {
+          alert(res.message)
+          this.setState({ isLoading: false, email: '' })
+          this.props.navigation.navigate('ResetPassword',{
+            email: email,
+          })
+        } else {
+          //console.log(res.message)
+          alert(res.message);
+          this.setState({ isLoading: false });
+        }
+      }
+      catch (err) {
+        return console.log(err);
+      }
+    }
+  }
+
+  
 }
 
 const styles = StyleSheet.create({

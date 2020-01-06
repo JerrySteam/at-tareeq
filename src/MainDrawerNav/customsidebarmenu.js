@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Text, AsyncStorage} from 'react-native';
-import { Icon, Avatar } from 'react-native-elements';
+import { View, StyleSheet, Image, Text, AsyncStorage } from 'react-native';
+import { Icon, Avatar, Badge } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Divider} from './navigationdrawerstructure';
+import { Divider } from './navigationdrawerstructure';
 
 export default class CustomSidebarMenu extends Component {
   constructor() {
@@ -60,16 +60,16 @@ export default class CustomSidebarMenu extends Component {
       photourl: null
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     this.loadInitialState().done();
   }
 
-  loadInitialState = async () =>{
+  loadInitialState = async () => {
     const fullname = await retrieveData('fullname');
     const photourl = await retrieveData('photourl');
     if (fullname !== null) {
       this.setState({
-        fullname:fullname,
+        fullname: fullname,
         photourl: photourl
       });
     }
@@ -79,15 +79,15 @@ export default class CustomSidebarMenu extends Component {
     return (
       <View style={styles.sideMenuContainer}>
         {/*Top Large Image */}
-        <Avatar 
-          rounded 
-          size={wp('22%')} 
-          source={{uri: this.state.photourl,}} 
-          containerStyle={{marginVertical:wp('5%')}}
+        <Avatar
+          rounded
+          size={wp('22%')}
+          source={{ uri: this.state.photourl, }}
+          containerStyle={{ marginVertical: wp('5%') }}
         />
         <Text>{this.state.fullname}</Text>
         {/*Divider between Top Image and Sidebar Option*/}
-        <Divider/>
+        <Divider />
 
         {/*Setting up Navigation Options from option array using loop*/}
         <View style={{ width: '100%' }}>
@@ -115,9 +115,13 @@ export default class CustomSidebarMenu extends Component {
                 }}>
                 {item.navOptionName}
               </Text>
+              <View style={{ marginLeft: 40}}>
+                {item.navOptionName === 'LECTURES' ? <Badge value="12" status="primary"/> : null}
+                {/**This counter is for newly added lectures and mosques */}
+              </View>
             </View>
           ))}
-         
+
         </View>
       </View>
     );
