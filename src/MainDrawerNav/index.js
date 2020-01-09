@@ -25,7 +25,7 @@ const MainDrawerNavigator = createDrawerNavigator({
     screen: HomeStackNavigator,
   },
   LectureDrawer: {
-    screen: SettingsStackNavigator,
+    screen: HomeStackNavigator,
   },
   FavouritesDrawer: {
     screen: FavouritesStackNavigator,

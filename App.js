@@ -19,6 +19,8 @@ import UserSignupScreen from './src/CreateAccountStack/usersignup';
 
 import MainDrawerNav from './src/MainDrawerNav'
 
+//console.ignoredYellowBox = ["Warning: Can't"];
+
 const LoginStack = createStackNavigator({
   Login: {screen: LoginScreen,},
   ForgotPassword: {screen: ForgotPasswordScreen,},
@@ -49,6 +51,7 @@ export default class App extends Component{
       <AppContainer />
     );
   }
+  
 }
 
 const styles = StyleSheet.create({

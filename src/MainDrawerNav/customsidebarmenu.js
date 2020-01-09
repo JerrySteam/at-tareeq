@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Divider } from './navigationdrawerstructure';
 
 export default class CustomSidebarMenu extends Component {
+  _isMounted = false;
   constructor() {
     super();
     //Setting up the Main Top Large Image of the Custom Sidebar
@@ -57,20 +58,29 @@ export default class CustomSidebarMenu extends Component {
     ];
     this.state = {
       fullname: null,
-      photourl: null
+      photourl: null,
+      count: [],
     }
   }
   componentDidMount() {
+    this._isMounted = true;
     this.loadInitialState().done();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   loadInitialState = async () => {
     const fullname = await retrieveData('fullname');
     const photourl = await retrieveData('photourl');
+    await this.getUnviewedLectureCount();
+    setInterval(() => {this.getUnviewedLectureCount()}, 1000);
+    
     if (fullname !== null) {
       this.setState({
         fullname: fullname,
-        photourl: photourl
+        photourl: photourl,
       });
     }
   }
@@ -112,11 +122,18 @@ export default class CustomSidebarMenu extends Component {
                 onPress={() => {
                   global.currentScreenIndex = key;
                   this.props.navigation.navigate(item.screenToNavigate);
+                  item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null
                 }}>
                 {item.navOptionName}
               </Text>
-              <View style={{ marginLeft: 40}}>
-                {item.navOptionName === 'LECTURES' ? <Badge value="12" status="primary"/> : null}
+              <View style={{ marginLeft: 40 }}>
+                {(item.navOptionName === 'LECTURES' && this.state.count.success === true) ?
+                  <Badge
+                    value={this.state.count.message}
+                    status="primary"
+                    textStyle={{ alignContent: 'center', justifyContent: 'center' }}
+                    onPress={() => this.onViewLectures()}
+                  /> : null}
                 {/**This counter is for newly added lectures and mosques */}
               </View>
             </View>
@@ -125,6 +142,61 @@ export default class CustomSidebarMenu extends Component {
         </View>
       </View>
     );
+  }
+
+  getUnviewedLectureCount = async () => {
+    const apiurl = global.url + 'getunviewedlectures.php';
+    const userid = await retrieveData('userid');
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      //console.log(res)
+      if (this._isMounted) {
+        this.setState({count: res})
+      }
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
+  onViewLectures = async () => {
+    const apiurl = global.url + 'updateuserlecturenotification.php';
+    const userid = await retrieveData('userid');
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      console.log(res.message)
+      if (res.success) {
+        await this.getUnviewedLectureCount();
+      }
+      //return res;
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 }
 const styles = StyleSheet.create({

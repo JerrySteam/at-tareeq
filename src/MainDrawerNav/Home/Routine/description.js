@@ -77,7 +77,7 @@ class LectureDescScreen extends Component {
                 name='map-marker' 
                 color='purple' 
                 type='font-awesome'
-                onPress={() => console.log('Map View')} 
+                onPress={() => this.props.navigation.navigate('MapView')} 
               />
               <Icon  
                 name={this.state.isNotification ? 'volume-up':'volume-off'}
