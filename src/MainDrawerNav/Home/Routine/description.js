@@ -15,6 +15,8 @@ class LectureDescScreen extends Component {
       date: navigation.getParam('date', 'NO-DATE'),
       time: navigation.getParam('time', 'NO-TIME'),
       briefinfo: navigation.getParam('briefinfo', 'NO-TIME'),
+      latitude: navigation.getParam('latitude', 0),
+      longitude: navigation.getParam('longitude', 0),
       photourl: navigation.getParam('photourl', 'NO-TIME'),
 
       isFavourite: false,
@@ -77,7 +79,11 @@ class LectureDescScreen extends Component {
                 name='map-marker' 
                 color='purple' 
                 type='font-awesome'
-                onPress={() => this.props.navigation.navigate('MapView')} 
+                onPress={() => this.props.navigation.navigate('MapView',{
+                  cordLatitude: this.state.latitude,
+                  cordLongitude: this.state.longitude,
+                  destination: this.state.location,
+                })} 
               />
               <Icon  
                 name={this.state.isNotification ? 'volume-up':'volume-off'}

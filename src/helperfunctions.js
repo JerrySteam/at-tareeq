@@ -1,5 +1,7 @@
 import {AsyncStorage} from 'react-native';
 
+let latitude = 0;
+let longitude = 0; 
 storeAllUserInfo = async(keyvaluepairs) => {
   try {
     await AsyncStorage.multiSet(keyvaluepairs, err => {
@@ -50,6 +52,18 @@ logout = async(navigate) =>{
   console.log(await AsyncStorage.getItem('fullname'))
   await removeAllUserInfo()
   navigate("LoginNavigator")
+}
+
+setlatlong = (latitude, longitude) =>{
+  this.latitude = latitude;
+  this.longitude = longitude;
+}
+
+getlatlong = () =>{
+  return {
+    "latitude": this.latitude,
+    "longitude": this.longitude,
+  }
 }
 
 /**

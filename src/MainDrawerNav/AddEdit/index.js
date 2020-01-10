@@ -11,6 +11,8 @@ import EditSpecialLectureScreen from './editspeciallecture';
 import EditRoutineTaleemScreen from './editroutinetaleem';
 import SingleSpecialLectureScreen from './singlespeciallecture';
 import SingleRoutineTaleemScreen from './singleroutinetaleem';
+import SpecialMapViewScreen from './specialmapview';
+import RoutineMapViewScreen from './routinemapview';
 
 const AddEditLectureScreens = createStackNavigator({
   //All the screen from the Screen2 will be indexed here
@@ -103,6 +105,22 @@ const AddEditLectureScreens = createStackNavigator({
         backgroundColor: '#052742',
       },
       headerTintColor: '#fff',
+    }),
+  },
+  SpecialMapView: {
+    screen: SpecialMapViewScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerTransparent: true,
+      headerTintColor: '#000',
+    }),
+  },
+  RoutineMapView: {
+    screen: RoutineMapViewScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: null,
+      headerTransparent: true,
+      headerTintColor: '#000',
     }),
   },
 });

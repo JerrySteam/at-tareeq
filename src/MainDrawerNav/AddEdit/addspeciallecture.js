@@ -17,10 +17,25 @@ export default class AddSpecialLecture extends Component {
       date: null,
       time: '',
       briefinfo: '',
+      latitude: this.props.navigation.getParam('latitude', 0),
+      longitude: this.props.navigation.getParam('longitude', 0),
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.navigation.getParam('latitude', 0) !==
+      prevProps.navigation.getParam('latitude', 0) &&
+      this.props.navigation.getParam('longitude', 0) !==
+      prevProps.navigation.getParam('longitude', 0)
+    ) {
+      const latitude = this.props.navigation.getParam('latitude', 0);
+      const longitude = this.props.navigation.getParam('longitude', 0);
+      this.setState({ latitude, longitude });
     }
   }
 
   render() {
+    console.log(this.state.latitude + ", " + this.state.longitude);
     return (
       <View style={styles.backgroundImage}>
         <KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={100}>
@@ -58,7 +73,7 @@ export default class AddSpecialLecture extends Component {
             />
             <Input
               placeholder='Location'
-              leftIcon={{ type: 'font-awesome', name: 'map-pin', size: wp('5%'), color: 'gray' }}
+              leftIcon={{ type: 'font-awesome', name: 'map-marker', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
               onChangeText={input => this.setState({ location: input })}
@@ -108,6 +123,13 @@ export default class AddSpecialLecture extends Component {
               value={this.state.briefinfo}
             />
             <Button
+              title='Select location on map'
+              type='outline'
+              titleStyle={{ color: '#000' }}
+              buttonStyle={styles.loginButton}
+              onPress={() => this.props.navigation.navigate("SpecialMapView")}
+            />
+            <Button
               title="POST"
               titleStyle={styles.loginButtonTitle}
               buttonStyle={styles.loginButton}
@@ -153,8 +175,10 @@ export default class AddSpecialLecture extends Component {
     const date = this.state.date
     const time = this.state.time.trim()
     const briefinfo = this.state.briefinfo.trim()
+    const latitude = this.state.latitude
+    const longitude = this.state.longitude
     const photourl = this.state.photourl
-    
+
     if (title === "" ||
       speaker === "" ||
       location === "" ||
@@ -174,6 +198,8 @@ export default class AddSpecialLecture extends Component {
       formData.append('date', date)
       formData.append('time', time)
       formData.append('briefinfo', briefinfo)
+      formData.append('latitude', latitude)
+      formData.append('longitude', longitude)
 
       if (photourl !== null) {
         const uriPart = photourl.split('.');
@@ -213,6 +239,8 @@ export default class AddSpecialLecture extends Component {
             time: '',
             briefinfo: '',
             photourl: null,
+            latitude: 0,
+            longitude: 0,
           })
         }
         this.setState({ isLoading: false })
@@ -245,7 +273,7 @@ const styles = StyleSheet.create({
     borderRadius: wp('6.94%'),
     width: wp('65%'),
     height: hp('8%'),
-    marginVertical: wp('8%')
+    marginTop: wp('8%')
   },
 
 });

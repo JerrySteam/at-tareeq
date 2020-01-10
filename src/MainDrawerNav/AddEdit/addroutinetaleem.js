@@ -17,10 +17,25 @@ export default class AddRoutineTaleem extends Component {
       weekday: '',
       time: '',
       briefinfo: '',
+      latitude: this.props.navigation.getParam('latitude', 0),
+      longitude: this.props.navigation.getParam('longitude', 0),
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.navigation.getParam('latitude', 0) !==
+      prevProps.navigation.getParam('latitude', 0) &&
+      this.props.navigation.getParam('longitude', 0) !==
+      prevProps.navigation.getParam('longitude', 0)
+    ) {
+      const latitude = this.props.navigation.getParam('latitude', 0);
+      const longitude = this.props.navigation.getParam('longitude', 0);
+      this.setState({ latitude, longitude });
     }
   }
 
   render() {
+    console.log(this.state.latitude + ", " + this.state.longitude);
     return (
       <View style={styles.backgroundImage}>
         <KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={100}>
@@ -75,7 +90,7 @@ export default class AddRoutineTaleem extends Component {
             />
             <Input
               placeholder='Location'
-              leftIcon={{ type: 'font-awesome', name: 'map-pin', size: wp('5%'), color: 'gray' }}
+              leftIcon={{ type: 'font-awesome', name: 'map-marker', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
               onChangeText={input => this.setState({ location: input })}
@@ -98,6 +113,13 @@ export default class AddRoutineTaleem extends Component {
               numberOfLines={4}
               onChangeText={input => this.setState({ briefinfo: input })}
               value={this.state.briefinfo}
+            />
+            <Button
+              title='Select location on map'
+              type='outline'
+              titleStyle={{ color: '#000' }}
+              buttonStyle={styles.loginButton}
+              onPress={() => this.props.navigation.navigate("RoutineMapView")}
             />
             <Button
               title="POST"
@@ -145,6 +167,8 @@ export default class AddRoutineTaleem extends Component {
     const weekday = this.state.weekday
     const time = this.state.time.trim()
     const briefinfo = this.state.briefinfo.trim()
+    const latitude = this.state.latitude
+    const longitude = this.state.longitude
     const photourl = this.state.photourl
     
     if (title === "" ||
@@ -166,6 +190,8 @@ export default class AddRoutineTaleem extends Component {
       formData.append('weekday', weekday)
       formData.append('time', time)
       formData.append('briefinfo', briefinfo)
+      formData.append('latitude', latitude)
+      formData.append('longitude', longitude)
 
       if (photourl !== null) {
         const uriPart = photourl.split('.');
@@ -205,6 +231,8 @@ export default class AddRoutineTaleem extends Component {
             time: '',
             briefinfo: '',
             photourl: null,
+            latitude: 0,
+            longitude: 0,
           })
         }
         this.setState({ isLoading: false })

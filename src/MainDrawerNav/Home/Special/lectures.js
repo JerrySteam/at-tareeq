@@ -68,6 +68,8 @@ class LectureScreen extends Component {
             date: item.dayordate,
             time: item.time,
             briefinfo: item.briefinfo,
+            latitude: item.latitude,
+            longitude: item.longitude,
             photourl: item.speakerphotourl,
           })}
         />

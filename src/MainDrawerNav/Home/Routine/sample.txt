@@ -17,8 +17,8 @@ class MapViewScreen extends Component {
       concat: null,
       coords: [],
       x: 'false',
-      cordLatitude: parseFloat(this.props.navigation.getParam('cordLatitude', 0)),
-      cordLongitude: parseFloat(this.props.navigation.getParam('cordLongitude', 0)),
+      cordLatitude: this.props.navigation.getParam('cordLatitude', 0),
+      cordLongitude: this.props.navigation.getParam('cordLongitude', 0),
       destination: this.props.navigation.getParam('destination', "Lecture venue"),
     }
 
@@ -105,23 +105,23 @@ class MapViewScreen extends Component {
         }}
       >
 
-        {this.state.latitude !== 0 && this.state.longitude !== 0 && this.state.isMapReady && <MapView.Marker
+        {!!this.state.latitude && !!this.state.longitude && this.state.isMapReady && <MapView.Marker
           coordinate={{ "latitude": this.state.latitude, "longitude": this.state.longitude }}
           title={"Your Location"}
         />}
 
-        {this.state.cordLatitude !== 0 && this.state.cordLongitude !== 0 && this.state.isMapReady && <MapView.Marker
+        {!!this.state.cordLatitude && !!this.state.cordLongitude && this.state.isMapReady && <MapView.Marker
           coordinate={{ "latitude": this.state.cordLatitude, "longitude": this.state.cordLongitude }}
           title={this.state.destination}
         />}
 
-        {this.state.latitude !== 0 && this.state.longitude !== 0 && this.state.x == 'true' && this.state.isMapReady && <MapView.Polyline
+        {!!this.state.latitude && !!this.state.longitude && this.state.x == 'true' && this.state.isMapReady && <MapView.Polyline
           coordinates={this.state.coords}
           strokeWidth={2}
           strokeColor="red" />
         }
 
-        {this.state.latitude !== 0 && this.state.longitude !== 0 && this.state.x == 'error' && this.state.isMapReady && <MapView.Polyline
+        {!!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && this.state.isMapReady && <MapView.Polyline
           coordinates={[
             { latitude: this.state.latitude, longitude: this.state.longitude },
             { latitude: this.state.cordLatitude, longitude: this.state.cordLongitude },
@@ -190,3 +190,18 @@ const styles = StyleSheet.create({
 });
 
 export default MapViewScreen;
+
+
+
+
+
+<Button
+          title="PICK LOCATION"
+          titleStyle={styles.loginButtonTitle}
+          buttonStyle={styles.loginButton}
+          icon={{ name: "send", size: wp('5%'), color: "white" }}
+          loading={this.state.isLoading}
+          disabled={this.state.isLoading}
+          loadingProps={{ color: '#000' }}
+          onPress={() => this.props.navigation.navigate('AddSpecialLecture')}
+        />

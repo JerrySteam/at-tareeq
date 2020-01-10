@@ -165,9 +165,6 @@ class MapViewScreen extends Component {
       longitudeDelta: deltaY
     };
   }
-
-
-
 }
 
 const styles = StyleSheet.create({
