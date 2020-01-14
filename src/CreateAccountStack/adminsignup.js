@@ -90,7 +90,7 @@ export default class AdminSignupScreen extends Component {
               value={this.state.phone}
             />
             <Input
-              placeholder='Email (optional)'
+              placeholder='Email'
               leftIcon={{ type: 'font-awesome', name: 'envelope', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
@@ -126,7 +126,7 @@ export default class AdminSignupScreen extends Component {
 
             <Picker
               selectedValue={this.state.mosquecat}
-              placeholder = "placeholder"
+              placeholder="placeholder"
               leftIcon={{ type: 'font-awesome', name: 'lock', size: wp('5%'), color: 'gray' }}
               style={{ height: hp('10%'), width: wp('95%'), borderColor: 'gray', color: '#fff', marginTop: wp('3%') }}
               onValueChange={(itemValue, itemIndex) =>
@@ -156,7 +156,7 @@ export default class AdminSignupScreen extends Component {
               //icon={{name: "location-arrow", size: wp('5%'), color: "white"}}
               onPress={() => this.createAccount()}
             />
-            
+
             <Divider orientation="center" borderColor="gray">
               <Text style={styles.socialSignIn}>Continue with</Text>
             </Divider>
@@ -193,7 +193,7 @@ export default class AdminSignupScreen extends Component {
 
     if (!result.cancelled) {
       this.setState({ photourl: result.uri });
-    }else{
+    } else {
       this.setState({ photourl: null });
     }
 
@@ -221,6 +221,7 @@ export default class AdminSignupScreen extends Component {
 
     if (fullname === "" ||
       phone === "" ||
+      email === "" ||
       location === "" ||
       password === "" ||
       cpassword === "" ||
@@ -256,12 +257,12 @@ export default class AdminSignupScreen extends Component {
 
         const uriPart = photourl.split('.');
         const fileExtension = uriPart[uriPart.length - 1];
-        let photoname = 'photo'+ new Date().getTime();
+        let photoname = 'photo' + new Date().getTime();
 
         formData.append('photo', {
           uri: photourl,
-          name: photoname+'.'+fileExtension,
-          type: 'image/'+fileExtension
+          name: photoname + '.' + fileExtension,
+          type: 'image/' + fileExtension
         });
       } else {
         formData.append('fullname', fullname)

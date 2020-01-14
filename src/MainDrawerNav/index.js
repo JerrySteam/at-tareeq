@@ -6,17 +6,21 @@ import CustomSidebarMenu from './customsidebarmenu';
 
 //import drawer option screens
 import HomeScreens from './Home';
-import SettingsScreens from './Settings';
 import FavouritesScreens from './Favourites';
-import SearchScreens from './Search';
 import AddEditLecturesScreens from './AddEdit';
+import SearchScreens from './Search';
+import DownloadScreens from './Downloads';
+import ResourcesScreens from './Resources';
+import SettingsScreens from './Settings';
 
 //Stack Navigator for Options of Navigation Drawer
 const HomeStackNavigator = HomeScreens;
-const SettingsStackNavigator = SettingsScreens;
 const FavouritesStackNavigator = FavouritesScreens;
-const SearchStackNavigator = SearchScreens;
 const AddEditLecturesStackNavigator = AddEditLecturesScreens;
+const SearchStackNavigator = SearchScreens;
+const DownloadsStackNavigator = DownloadScreens;
+const ResourcesStackNavigator = ResourcesScreens;
+const SettingsStackNavigator = SettingsScreens;
 
 //Drawer Navigator for the Navigation Drawer / Sidebar
 const MainDrawerNavigator = createDrawerNavigator({
@@ -37,10 +41,10 @@ const MainDrawerNavigator = createDrawerNavigator({
     screen: SearchStackNavigator,
   },
   DownloadsDrawer: {
-    screen: SettingsStackNavigator,
+    screen: DownloadsStackNavigator,
   },
   ResourcesDrawer: {
-    screen: SettingsStackNavigator,
+    screen: ResourcesStackNavigator,
   },
   SettingsDrawer: {
     screen: SettingsStackNavigator,

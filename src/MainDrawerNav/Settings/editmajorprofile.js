@@ -32,32 +32,36 @@ class EditMajorProfile extends Component {
         <KeyboardAvoidingView behavior="padding" enabled keyboardVerticalOffset={100}>
           <ScrollView contentContainerStyle={{ alignItems: "center" }}>
             <Input
+              disabled={true}
               label='Change Location'
               labelStyle={{ fontSize: wp('4%') }}
               placeholder='Change Location'
               leftIcon={{ type: 'font-awesome', name: 'map-pin', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('8%') }}
-              onChangeText={input => this.setState({ mosquelocation: input })}
+              //onChangeText={input => this.setState({ mosquelocation: input })}
               value={this.state.mosquelocation}
+              
             />
             <Input
+              disabled={true}
               label='Edit Mosque/Organization'
               labelStyle={{ fontSize: wp('4%') }}
               placeholder='Edit Mosque/Organization'
               leftIcon={{ type: 'font-awesome', name: 'globe', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
               containerStyle={{ width: wp('95%'), marginTop: wp('5%') }}
-              onChangeText={input => this.setState({ mosquename: input })}
+              //onChangeText={input => this.setState({ mosquename: input })}
               value={this.state.mosquename}
             />
-
+            {/** 
             <Button
               title="SUBMIT"
               titleStyle={styles.loginButtonTitle}
               buttonStyle={styles.loginButton}
               onPress={() => this.updateMajorProfile()}
             />
+            */}
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

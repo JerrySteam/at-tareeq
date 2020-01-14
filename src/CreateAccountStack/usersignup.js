@@ -38,7 +38,7 @@ export default class UserSignupScreen extends Component {
     headerTransparent: true,
     headerTintColor: '#fff',
   };
-  
+
   render() {
     const { navigate } = this.props.navigation;
     if (!this.state.isReady) {
@@ -169,7 +169,7 @@ export default class UserSignupScreen extends Component {
 
     if (!result.cancelled) {
       this.setState({ photourl: result.uri });
-    }else{
+    } else {
       this.setState({ photourl: null });
     }
 
@@ -195,6 +195,7 @@ export default class UserSignupScreen extends Component {
 
     if (fullname === "" ||
       phone === "" ||
+      email === "" ||
       location === "" ||
       password === "" ||
       cpassword === ""
@@ -226,12 +227,12 @@ export default class UserSignupScreen extends Component {
 
         const uriPart = photourl.split('.');
         const fileExtension = uriPart[uriPart.length - 1];
-        let photoname = 'photo'+ new Date().getTime();
+        let photoname = 'photo' + new Date().getTime();
 
         formData.append('photo', {
           uri: photourl,
-          name: photoname+'.'+fileExtension,
-          type: 'image/'+fileExtension
+          name: photoname + '.' + fileExtension,
+          type: 'image/' + fileExtension
         });
       } else {
         formData.append('fullname', fullname)

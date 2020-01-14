@@ -15,7 +15,8 @@ export default class AddSpecialLecture extends Component {
       speaker: '',
       location: '',
       date: null,
-      time: '',
+      starttime: null,
+      endtime: null,
       briefinfo: '',
       latitude: this.props.navigation.getParam('latitude', 0),
       longitude: this.props.navigation.getParam('longitude', 0),
@@ -80,7 +81,7 @@ export default class AddSpecialLecture extends Component {
               value={this.state.location}
             />
             <DatePicker
-              style={{ width: wp('90%'), }}
+              style={{ width: wp('90%'), marginTop: wp('5%')}}
               date={this.state.date}
               mode="date"
               iconComponent={<Icon name='calendar-o' type='font-awesome' color='#e2e2e2' />}
@@ -99,18 +100,60 @@ export default class AddSpecialLecture extends Component {
                   borderTopWidth: 0,
                   borderRightWidth: 0,
                   borderLeftWidth: 0,
+                  fontSize: wp('4.5%')
                 }
-                // ... You can check the source to find the other keys.
               }}
               onDateChange={(date) => { this.setState({ date: date }) }}
             />
-            <Input
-              placeholder='Time'
-              leftIcon={{ type: 'font-awesome', name: 'clock-o', size: wp('5%'), color: 'gray' }}
-              inputStyle={{ color: '#000', paddingHorizontal: wp('2%'), fontSize: wp('4.5%'), }}
-              containerStyle={{ width: wp('95%'), marginTop: wp('2%') }}
-              onChangeText={input => this.setState({ time: input })}
-              value={this.state.time}
+            <DatePicker
+              style={{ width: wp('90%'), marginTop: wp('5%')}}
+              date={this.state.starttime}
+              mode="time"
+              iconComponent={<Icon name='clock-o' type='font-awesome' color='#e2e2e2' />}
+              placeholder="Select Start Time"
+              format="h:mm a"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={true}
+              customStyles={{
+                dateIcon: {
+                  marginRight: wp('80%')
+                },
+                dateInput: {
+                  marginLeft: 4,
+                  borderTopWidth: 0,
+                  borderRightWidth: 0,
+                  borderLeftWidth: 0,
+                  fontSize: wp('4.5%')
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={(time) => { this.setState({ starttime: time }) }}
+            />
+            <DatePicker
+              style={{ width: wp('90%'), marginTop: wp('5%')}}
+              date={this.state.endtime}
+              mode="time"
+              iconComponent={<Icon name='clock-o' type='font-awesome' color='#e2e2e2' />}
+              placeholder="Select End Time (optional)"
+              format="h:mm a"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              showIcon={true}
+              customStyles={{
+                dateIcon: {
+                  marginRight: wp('80%')
+                },
+                dateInput: {
+                  marginLeft: 4,
+                  borderTopWidth: 0,
+                  borderRightWidth: 0,
+                  borderLeftWidth: 0,
+                  fontSize: wp('4.5%')
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={(time) => { this.setState({ endtime: time }) }}
             />
             <Input
               placeholder='Brief info about the lecture (Optional)'
@@ -173,7 +216,8 @@ export default class AddSpecialLecture extends Component {
     const speaker = this.state.speaker.trim()
     const location = this.state.location.trim()
     const date = this.state.date
-    const time = this.state.time.trim()
+    const starttime = this.state.starttime
+    const endtime = this.state.endtime
     const briefinfo = this.state.briefinfo.trim()
     const latitude = this.state.latitude
     const longitude = this.state.longitude
@@ -183,7 +227,7 @@ export default class AddSpecialLecture extends Component {
       speaker === "" ||
       location === "" ||
       date === null ||
-      time === ""
+      starttime === null  
     ) {
       alert("Please enter all required fields")
       this.setState({ isLoading: false })
@@ -191,6 +235,11 @@ export default class AddSpecialLecture extends Component {
 
       const apiurl = global.url + 'addspeciallecture.php'
       const formData = new FormData()
+      let time = starttime;
+      if (endtime !== null) {
+        time = time + " - " + endtime;
+      }
+
       formData.append('userid', userid)
       formData.append('title', title)
       formData.append('speaker', speaker)

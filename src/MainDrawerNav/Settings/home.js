@@ -82,8 +82,27 @@ class Home extends Component {
             size={wp('30%')}
             source={{ uri: this.state.photourl, }}
             containerStyle={{ marginTop: wp('5%'), marginBottom: wp('2%') }}
+            onPress={() => this.props.navigation.navigate("EditProfile", {
+              userid: this.state.userid,
+              fullname: this.state.fullname,
+              displayname: this.state.displayname,
+              phone: this.state.phone,
+              email: this.state.email,
+              location: this.state.location,
+              photourl: this.state.photourl,
+            })}
           />
-          <Text style={styles.userName}>{this.state.fullname}</Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile", {
+            userid: this.state.userid,
+            fullname: this.state.fullname,
+            displayname: this.state.displayname,
+            phone: this.state.phone,
+            email: this.state.email,
+            location: this.state.location,
+            photourl: this.state.photourl,
+          })}>
+            <Text style={styles.userName}>{this.state.fullname}</Text>
+          </TouchableOpacity>
         </View>
         <View style={{ marginTop: wp('1%'), marginBottom: wp('1%') }}>
           <Card
@@ -201,7 +220,7 @@ class Home extends Component {
   }
 
   /***Start lecture switch */
-  getLectureSwitchValue = async() => {
+  getLectureSwitchValue = async () => {
     const apiurl = global.url + 'getusernotification.php';
     const userid = this.state.userid
     const notid = '1'
@@ -214,7 +233,7 @@ class Home extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body:JSON.stringify({
+        body: JSON.stringify({
           userid: userid,
           notid: notid
         }),
@@ -228,7 +247,7 @@ class Home extends Component {
     }
   }
 
-  toggleLectureSwitch = async(value) => {
+  toggleLectureSwitch = async (value) => {
     if (this.state.lectureSwitchValue) {
       this.setState({ lectureSwitchValue: value })
       const res = await this.removeLectureNotification();
@@ -240,7 +259,7 @@ class Home extends Component {
     }
   }
 
-  addLectureNotification = async() => {
+  addLectureNotification = async () => {
     const apiurl = global.url + 'addusernotification.php';
     const userid = this.state.userid
     const notid = '1'
@@ -265,7 +284,7 @@ class Home extends Component {
     }
   }
 
-  removeLectureNotification = async() => {
+  removeLectureNotification = async () => {
     const apiurl = global.url + 'removeusernotification.php';
     const userid = this.state.userid
     const notid = '1'
@@ -292,7 +311,7 @@ class Home extends Component {
   /***End lecture switch */
 
   /***Start mosque switch */
-  getMosqueSwitchValue = async() => {
+  getMosqueSwitchValue = async () => {
     const apiurl = global.url + 'getusernotification.php';
     const userid = this.state.userid
     const notid = '2'
@@ -305,7 +324,7 @@ class Home extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body:JSON.stringify({
+        body: JSON.stringify({
           userid: userid,
           notid: notid
         }),
@@ -319,7 +338,7 @@ class Home extends Component {
     }
   }
 
-  toggleMosqueSwitch = async(value) => {
+  toggleMosqueSwitch = async (value) => {
     if (this.state.mosqueSwitchValue) {
       this.setState({ mosqueSwitchValue: value })
       const res = await this.removeMosqueNotification();
@@ -331,7 +350,7 @@ class Home extends Component {
     }
   }
 
-  addMosqueNotification = async() => {
+  addMosqueNotification = async () => {
     const apiurl = global.url + 'addusernotification.php';
     const userid = this.state.userid
     const notid = '2'
@@ -356,7 +375,7 @@ class Home extends Component {
     }
   }
 
-  removeMosqueNotification = async() => {
+  removeMosqueNotification = async () => {
     const apiurl = global.url + 'removeusernotification.php';
     const userid = this.state.userid
     const notid = '2'

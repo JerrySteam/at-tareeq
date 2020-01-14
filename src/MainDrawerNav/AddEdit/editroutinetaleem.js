@@ -107,7 +107,7 @@ class EditRoutineTaleem extends Component {
   }
 
   getRoutineTaleem = async() => {
-    const apiurl = global.url + 'getroutineTaleembyuserid.php'
+    const apiurl = global.url + 'getroutinetaleembyuserid.php';
     const userid = await retrieveData('userid');
     try {
       const formData = new FormData()

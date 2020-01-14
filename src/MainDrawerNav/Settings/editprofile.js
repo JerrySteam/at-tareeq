@@ -67,6 +67,7 @@ class EditProfile extends Component {
               value={this.state.displayname}
             />
             <Input
+              disabled={true}
               label='Phone Number'
               labelStyle={{ fontSize: wp('4%') }}
               placeholder='Phone Number'
@@ -76,6 +77,7 @@ class EditProfile extends Component {
               value={this.state.phone}
             />
             <Input
+              disabled={true}
               label='Email Address'
               labelStyle={{ fontSize: wp('4%') }}
               placeholder='Email Address'
@@ -93,7 +95,6 @@ class EditProfile extends Component {
               loadingProps={{ color: '#000' }}
               onPress={() => this.updateAccount()}
             />
-
             <Card
               title='Change Password'
               titleStyle={styles.cardTitle}

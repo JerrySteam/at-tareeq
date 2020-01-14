@@ -60,8 +60,10 @@ export default class CustomSidebarMenu extends Component {
       fullname: null,
       photourl: null,
       count: [],
+      roleid: 0,
     }
   }
+
   componentDidMount() {
     this._isMounted = true;
     this.loadInitialState().done();
@@ -74,13 +76,16 @@ export default class CustomSidebarMenu extends Component {
   loadInitialState = async () => {
     const fullname = await retrieveData('fullname');
     const photourl = await retrieveData('photourl');
+    const roleid = await retrieveData('roleid');
+
     await this.getUnviewedLectureCount();
-    setInterval(() => {this.getUnviewedLectureCount()}, 1000);
-    
+    setInterval(() => { this.getUnviewedLectureCount() }, 1000);
+
     if (fullname !== null) {
       this.setState({
         fullname: fullname,
         photourl: photourl,
+        roleid: roleid,
       });
     }
   }
@@ -102,43 +107,82 @@ export default class CustomSidebarMenu extends Component {
         {/*Setting up Navigation Options from option array using loop*/}
         <View style={{ width: '100%' }}>
           {this.items.map((item, key) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingTop: 10,
-                paddingBottom: 10,
-                backgroundColor: global.currentScreenIndex === key ? '#e0dbdb' : '#ffffff',
-              }}
-              key={key}>
-              <View style={{ marginRight: 10, marginLeft: 20 }}>
-                <Icon name={item.navOptionThumb} size={25} color="#808080" />
-              </View>
-              <Text
+            (item.navOptionThumb === 'edit') ?
+              (this.state.roleid === '2') ?
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    backgroundColor: global.currentScreenIndex === key ? '#e0dbdb' : '#ffffff',
+                  }}
+                  key={key}
+                >
+                  <View style={{ marginRight: 10, marginLeft: 20 }}>
+                    <Icon name={item.navOptionThumb} size={25} color="#808080" />
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      color: global.currentScreenIndex === key ? 'red' : 'black',
+                    }}
+                    onPress={() => {
+                      global.currentScreenIndex = key;
+                      this.props.navigation.navigate(item.screenToNavigate);
+                      item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null
+                    }}
+                  >
+                    {item.navOptionName}
+                  </Text>
+                  <View style={{ marginLeft: 40 }}>
+                    {(item.navOptionName === 'LECTURES' && this.state.count.success === true) ?
+                      <Badge
+                        value={this.state.count.message}
+                        status="primary"
+                        textStyle={{ alignContent: 'center', justifyContent: 'center' }}
+                        onPress={() => this.onViewLectures()}
+                      /> : null}
+                  </View>
+                </View>
+                : null
+              : <View
                 style={{
-                  fontSize: 15,
-                  color: global.currentScreenIndex === key ? 'red' : 'black',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  backgroundColor: global.currentScreenIndex === key ? '#e0dbdb' : '#ffffff',
                 }}
-                onPress={() => {
-                  global.currentScreenIndex = key;
-                  this.props.navigation.navigate(item.screenToNavigate);
-                  item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null
-                }}>
-                {item.navOptionName}
-              </Text>
-              <View style={{ marginLeft: 40 }}>
-                {(item.navOptionName === 'LECTURES' && this.state.count.success === true) ?
-                  <Badge
-                    value={this.state.count.message}
-                    status="primary"
-                    textStyle={{ alignContent: 'center', justifyContent: 'center' }}
-                    onPress={() => this.onViewLectures()}
-                  /> : null}
-                {/**This counter is for newly added lectures and mosques */}
+                key={key}
+              >
+                <View style={{ marginRight: 10, marginLeft: 20 }}>
+                  <Icon name={item.navOptionThumb} size={25} color="#808080" />
+                </View>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    color: global.currentScreenIndex === key ? 'red' : 'black',
+                  }}
+                  onPress={() => {
+                    global.currentScreenIndex = key;
+                    this.props.navigation.navigate(item.screenToNavigate);
+                    item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null
+                  }}
+                >
+                  {item.navOptionName}
+                </Text>
+                <View style={{ marginLeft: 40 }}>
+                  {(item.navOptionName === 'LECTURES' && this.state.count.success === true) ?
+                    <Badge
+                      value={this.state.count.message}
+                      status="primary"
+                      textStyle={{ alignContent: 'center', justifyContent: 'center' }}
+                      onPress={() => this.onViewLectures()}
+                    /> : null}
+                </View>
               </View>
-            </View>
           ))}
-
         </View>
       </View>
     );
@@ -163,7 +207,7 @@ export default class CustomSidebarMenu extends Component {
       const res = await response.json();
       //console.log(res)
       if (this._isMounted) {
-        this.setState({count: res})
+        this.setState({ count: res })
       }
     }
     catch (err) {

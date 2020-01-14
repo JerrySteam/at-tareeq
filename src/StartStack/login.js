@@ -66,7 +66,7 @@ export default class LoginScreen extends Component{
           
           <Button
             title="LOGIN"
-            type='outline' 
+            type={(this.state.username==='' || this.state.password==='')? 'outline' : 'solid'} 
             loading  = {this.state.isLoading}
             disabled  = {this.state.isLoading}
             loadingProps={{color:'#fff'}}
@@ -130,14 +130,14 @@ export default class LoginScreen extends Component{
         const res = await response.json();
         if (res.success) {
           const user = res.message[0];
-          const userid = user.userid;
-          await storeData('userid', userid.toString());
+          await storeData('userid', user.userid.toString());
           await storeData('fullname', user.fullname);
           await storeData('displayname', user.displayname);
           await storeData('phone', user.phone);
           await storeData('email', user.email);
           await storeData('location', user.location);
           await storeData('photourl', user.photourl);
+          await storeData('roleid', user.roleid.toString());
           this.setState({isLoading: false})
           this.props.navigation.navigate('MainDrawerNav');
         }
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
     borderRadius:wp('6.94%'), 
     width:wp('65%'),
     height: hp('8%'),
+    marginVertical: wp('4%'),
     borderColor: 'gray',
-    backgroundColor: 'gray',
-    opacity: 0.4,
-    marginVertical: wp('4%')  
+    //backgroundColor: 'gray',
+    //opacity: 0.4, 
   },
   forgotPassword:{
     fontSize: wp('5%'),
