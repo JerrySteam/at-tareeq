@@ -48,10 +48,13 @@ removeData= async (key) => {
   }
 }
 
-logout = async(navigate) =>{
-  console.log(await AsyncStorage.getItem('fullname'))
-  await removeAllUserInfo()
-  navigate("LoginNavigator")
+logout = async(navigate) => {
+  //console.log(await AsyncStorage.getItem('fullname'));
+  //console.log(await AsyncStorage.getItem('RMEU'));
+  const username = await AsyncStorage.getItem('RMEU');
+  await removeAllUserInfo();
+  await AsyncStorage.setItem('RMEU', username);
+  navigate("LoginNavigator");
 }
 
 setlatlong = (latitude, longitude) =>{

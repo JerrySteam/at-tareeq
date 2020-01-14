@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, AsyncStorage } from 'react-native';
 //import { Container, Header, Content} from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
@@ -20,6 +20,12 @@ export default class IndexScreen extends Component{
       Impact: require('../assets/fonts/impact.ttf'),
     });
     this.setState({ isReady: true });
+
+    const loggedin = await AsyncStorage.getItem('RLGN');
+    if (loggedin !== null) {
+      this.props.navigation.navigate('MainDrawerNav');
+    }
+    
   }
   
   render(){
