@@ -51,9 +51,14 @@ export default class CustomSidebarMenu extends Component {
         screenToNavigate: 'ResourcesDrawer',
       },
       {
-        navOptionThumb: 'build',
+        navOptionThumb: 'cog',
         navOptionName: 'SETTINGS',
         screenToNavigate: 'SettingsDrawer',
+      },
+      {
+        navOptionThumb: 'sign-out',
+        navOptionName: 'LOGOUT',
+        screenToNavigate: 'LoginNavigator',
       },
     ];
     this.state = {
@@ -157,7 +162,7 @@ export default class CustomSidebarMenu extends Component {
                 key={key}
               >
                 <View style={{ marginRight: 10, marginLeft: 20 }}>
-                  <Icon name={item.navOptionThumb} size={25} color="#808080" />
+                  <Icon name={item.navOptionThumb} size={25} color="#808080" type='font-awesome' />
                 </View>
                 <Text
                   style={{
@@ -166,8 +171,16 @@ export default class CustomSidebarMenu extends Component {
                   }}
                   onPress={() => {
                     global.currentScreenIndex = key;
-                    this.props.navigation.navigate(item.screenToNavigate);
-                    item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null
+                    item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null;
+
+                    if (item.navOptionName === 'LOGOUT') {
+                      logout(this.props.navigation.navigate)
+                    }else{
+                      this.props.navigation.navigate(item.screenToNavigate);
+                    }
+                    
+                    //item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null;
+
                   }}
                 >
                   {item.navOptionName}

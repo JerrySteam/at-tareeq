@@ -108,18 +108,28 @@ export default class UserSignupScreen extends Component {
               secureTextEntry={true}
               leftIcon={{ type: 'font-awesome', name: 'lock', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%') }}
-              containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('4%'), }}
               onChangeText={input => this.setState({ password: input })}
               value={this.state.password}
+              errorStyle={{ color: '#fff' }}
+              errorMessage='Minimum of 6 characters'
+              rightIcon ={
+                (this.state.password !== "") ?
+                  (this.state.password.length >= 6) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                : null}
             />
             <Input
               placeholder='Confirm Password'
               secureTextEntry={true}
               leftIcon={{ type: 'font-awesome', name: 'lock', size: wp('5%'), color: 'gray' }}
               inputStyle={{ color: '#fff', paddingHorizontal: wp('2%'), fontSize: wp('4.5%') }}
-              containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
+              containerStyle={{ width: wp('95%'), marginTop: wp('3%'), }}
               onChangeText={input => this.setState({ cpassword: input })}
               value={this.state.cpassword}
+              rightIcon ={
+                (this.state.password !== "" && this.state.cpassword !== "") ?
+                  (this.state.password===this.state.cpassword) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                : null}
             />
 
             <Button
@@ -205,11 +215,11 @@ export default class UserSignupScreen extends Component {
     } else if (email !== "" && !this.isValidEmail(email)) {
       alert("Please enter a valid email address")
       this.setState({ isLoading: false })
+    } else if (password.length < 6) {
+      alert("Password must be minimum 6 characters")
+      this.setState({ isLoading: false })
     } else if (password !== cpassword) {
       alert("Password and confirm password do not match")
-      this.setState({ isLoading: false })
-    } else if (password.length < 4) {
-      alert("Password must be more than 3 characters")
       this.setState({ isLoading: false })
     } else {
 

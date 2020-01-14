@@ -117,6 +117,12 @@ class EditProfile extends Component {
                 containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
                 onChangeText={input => this.setState({ newpassword: input })}
                 value={this.state.newpassword}
+                errorStyle={{ color: '#000' }}
+                errorMessage='Minimum of 6 characters'
+                rightIcon ={
+                  (this.state.newpassword !== "") ?
+                    (this.state.newpassword.length >= 6) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                  : null}
               />
               <Input
                 placeholder='Confirm New Password'
@@ -126,6 +132,10 @@ class EditProfile extends Component {
                 containerStyle={{ width: wp('95%'), marginTop: wp('5%'), }}
                 onChangeText={input => this.setState({ confirmpassword: input })}
                 value={this.state.confirmpassword}
+                rightIcon ={
+                  (this.state.newpassword !== "" && this.state.confirmpassword !== "") ?
+                    (this.state.newpassword===this.state.confirmpassword) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                  : null}
               />
             </Card>
             <Button
@@ -245,6 +255,9 @@ class EditProfile extends Component {
 
     if (currentpassword === "" || newpassword === "" || confirmpassword === "") {
       alert("Please all fields are required")
+      this.setState({ isLoadingPass: false })
+    }else if (newpassword.length < 6){
+      alert("New password must be minimum 6 characters")
       this.setState({ isLoadingPass: false })
     }else if (newpassword !== confirmpassword){
       alert("New password and confirm password do not match")

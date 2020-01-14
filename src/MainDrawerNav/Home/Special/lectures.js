@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ScrollView, FlatList, ActivityIndicator } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Card, ListItem, Button, Icon, SearchBar } from 'react-native-elements'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 //import Icon from 'react-native-vector-icons/FontAwesome';
 class ItemSubtitle extends Component {
@@ -22,7 +22,10 @@ class LectureScreen extends Component {
       specialLectures: [],
       loading: true,
       refreshing: false,
+      search : '',
+      showLoading : false,
     }
+    this.arrayholder = [];
   }
   componentDidMount(){
     this.loadInitialState().done();
@@ -76,6 +79,21 @@ class LectureScreen extends Component {
       </ImageBackground>
     </View>
   )
+
+  renderHeader = () => {    
+    return (      
+      <SearchBar        
+        placeholder="Type Here..."        
+        lightTheme        
+        round        
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+        showLoading = {this.state.showLoading} 
+        value={this.state.search}            
+      />    
+    );  
+  };
+
   render() {
     if(this.state.loading) { 
       return (
@@ -102,6 +120,7 @@ class LectureScreen extends Component {
         renderItem={this.renderItem}
         refreshing = {this.state.refreshing}
         onRefresh = {() => this.onRefresh()}
+        ListHeaderComponent={this.renderHeader}
       />
     );
   }
@@ -119,12 +138,32 @@ class LectureScreen extends Component {
       });
       const res = await response.json();
       //console.log(res)
+      this.arrayholder = res;
       return res;
     }
     catch (err) {
       return console.log(err);
     }
   }
+
+  searchFilterFunction = text => {  
+    this.setState({search: text, showLoading: true})  
+    const newData = this.arrayholder.message.filter(item => {      
+      const itemData = `${item.lectureid}   
+      ${item.categoryid} ${item.topic.toUpperCase()}
+      ${item.speaker.toUpperCase()} ${item.location.toUpperCase()}
+      ${item.briefinfo.toUpperCase()} ${item.speakerphotourl}
+      ${item.datecreated} ${item.createdby}
+      ${item.rowid} ${item.dayordate.toUpperCase()} 
+      ${item.time.toUpperCase()}`;
+      
+       const textData = text.toUpperCase();
+        
+       return itemData.indexOf(textData) > -1;    
+    });
+    
+    this.setState({ specialLectures: {'success':true, 'message':newData}, showLoading: false });  
+  };
 }
 
 const styles = StyleSheet.create({
