@@ -9,6 +9,10 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyByKge0hMAWkkHSXBJPyE4mg8DabFaGYnY"
+        },
+        "googleSignIn": {
+          "apiKey": "AIzaSyByKge0hMAWkkHSXBJPyE4mg8DabFaGYnY",
+          "certificateHash": "388072DF05E7E0EA9C4ADF93EFD054C6C494F74A"
         }
       },
       "versionCode": 1,

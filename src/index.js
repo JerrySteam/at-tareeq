@@ -15,6 +15,7 @@ export default class IndexScreen extends Component{
       isReady: false,
     };
   }
+
   async componentDidMount() {
     await Font.loadAsync({
       Impact: require('../assets/fonts/impact.ttf'),
@@ -24,8 +25,7 @@ export default class IndexScreen extends Component{
     const loggedin = await AsyncStorage.getItem('RLGN');
     if (loggedin !== null) {
       this.props.navigation.navigate('MainDrawerNav');
-    }
-    
+    }  
   }
   
   render(){

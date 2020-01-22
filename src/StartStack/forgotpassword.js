@@ -55,7 +55,7 @@ export default class ForgotPasswordScreen extends Component{
             />
             <Button
               title="SUBMIT"
-              type='outline'
+              type={(this.state.email === '') ? 'outline' : 'solid'}
               titleStyle={styles.loginButtonTitle}
               buttonStyle ={styles.loginButton}
               loading={this.state.isLoading}
@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     width:wp('65%'),
     height: hp('8%'),
     borderColor: 'gray',
-    backgroundColor: 'gray',
-    opacity: 0.4,
+    //backgroundColor: 'gray',
+    //opacity: 0.4,
     marginVertical: wp('5%')  
   },
 });

@@ -8,6 +8,7 @@ import { Button, Input, SocialIcon, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Divider from 'react-native-divider';
+import * as Google from 'expo-google-app-auth';
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -77,22 +78,22 @@ export default class LoginScreen extends Component {
           />
           <View style={{ flexDirection: "row" }}>
             <CheckBox
-              title='Remember Me'
+              title='Remember me'
               checked={this.state.rememberMe}
               onPress={() => this.toggleRememberMe(!this.state.rememberMe)}
-              containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+              containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent' }}
               checkedColor="#fff"
               uncheckedColor="#fff"
-              textStyle ={{color: '#fff'}}
+              textStyle={{ color: '#fff' }}
             />
             <CheckBox
               title='Keep me logged in'
               checked={this.state.loggedIn}
               onPress={() => this.toggleKeepLoggedin(!this.state.loggedIn)}
-              containerStyle={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+              containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent' }}
               checkedColor="#fff"
               uncheckedColor="#fff"
-              textStyle ={{color: '#fff'}}
+              textStyle={{ color: '#fff' }}
             />
           </View>
           <Button
@@ -117,17 +118,21 @@ export default class LoginScreen extends Component {
 
           <View style={{ flexDirection: "row", marginTop: wp('4%') }}>
             <SocialIcon
+              type='google'
+              onPress={() => this.signInWithGoogleAsync()}
+            />
+            {/**           <SocialIcon
               type='facebook'
+            //onPress={()=> this.props.navigation.navigate('FBLogin')}
             />
             <SocialIcon
               type='twitter'
             />
             <SocialIcon
-              type='google'
-            />
-            <SocialIcon
               type='linkedin'
             />
+             */}
+
           </View>
         </View>
       </ImageBackground>
@@ -159,6 +164,7 @@ export default class LoginScreen extends Component {
           })
         });
         const res = await response.json();
+
         if (res.success) {
           const user = res.message[0];
           await storeData('userid', user.userid.toString());
@@ -192,7 +198,7 @@ export default class LoginScreen extends Component {
       this.forgetUser();
     }
   }
- 
+
   rememberUser = async () => {
     try {
       await AsyncStorage.setItem('RMEU', this.state.username);
@@ -262,8 +268,40 @@ export default class LoginScreen extends Component {
       // Error removing
     }
   };
-}
 
+  signInWithGoogleAsync = async () => {
+    console.log('clicked')
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: '270580670630-2mbc4h600q94cieu5ffrmigieph9rsej.apps.googleusercontent.com',
+        androidStandaloneAppClientId: '270580670630-4obsijgkfn3inm9n7htp91vgffqcfpej.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      });
+
+      if (result.type === 'success') {
+        this.setState({isReady: false});
+        console.log("token: ", result.accessToken);
+        const user = result.user;
+        await storeData('accesstoken', result.accessToken);
+        await storeData('userid', user.id);
+        await storeData('fullname', user.name);
+        await storeData('displayname', user.givenName);
+        await storeData('phone', '');
+        await storeData('email', user.email);
+        await storeData('location', '');
+        await storeData('photourl', user.photoUrl);
+        await storeData('roleid', '1');
+        this.setState({isReady: true})
+        this.props.navigation.navigate('MainDrawerNav');
+      } else {
+        console.log('cancelled');
+      }
+    } catch (e) {
+      console.log('error ', e)
+    }
+  }
+
+}
 
 const styles = StyleSheet.create({
   appContainer: {

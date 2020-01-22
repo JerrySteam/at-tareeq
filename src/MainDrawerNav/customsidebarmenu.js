@@ -66,6 +66,7 @@ export default class CustomSidebarMenu extends Component {
       photourl: null,
       count: [],
       roleid: 0,
+      favCount: 0,
     }
   }
 
@@ -84,7 +85,10 @@ export default class CustomSidebarMenu extends Component {
     const roleid = await retrieveData('roleid');
 
     await this.getUnviewedLectureCount();
-    setInterval(() => { this.getUnviewedLectureCount() }, 1000);
+    setInterval(() => {
+      this.getUnviewedLectureCount();
+      this.getFavouriteLectureCount();
+    }, 1000);
 
     if (fullname !== null) {
       this.setState({
@@ -150,8 +154,8 @@ export default class CustomSidebarMenu extends Component {
                       /> : null}
                   </View>
                 </View>
-                : null
-              : <View
+              : null
+            : <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -175,25 +179,35 @@ export default class CustomSidebarMenu extends Component {
 
                     if (item.navOptionName === 'LOGOUT') {
                       logout(this.props.navigation.navigate)
-                    }else{
+                    } else {
                       this.props.navigation.navigate(item.screenToNavigate);
                     }
-                    
-                    //item.navOptionName === 'LECTURES' && this.state.count.success === true ? this.onViewLectures() : null;
-
                   }}
                 >
                   {item.navOptionName}
                 </Text>
-                <View style={{ marginLeft: 40 }}>
-                  {(item.navOptionName === 'LECTURES' && this.state.count.success === true) ?
+                {(item.navOptionName === 'LECTURES' && 
+                  this.state.count.message > 0) ?
+                  <View style={{ position:'absolute', right:wp('8%') }}>
                     <Badge
                       value={this.state.count.message}
                       status="primary"
                       textStyle={{ alignContent: 'center', justifyContent: 'center' }}
                       onPress={() => this.onViewLectures()}
-                    /> : null}
-                </View>
+                    />
+                  </View>
+                : null}
+
+                {(item.navOptionName === 'FAVOURITES' && this.state.favCount.message > 0) ?
+                  <View style={{ position:'absolute', right:wp('8%') }}>
+                    <Badge
+                      value={this.state.favCount.message}
+                      status="primary"
+                      textStyle={{ alignContent: 'center', justifyContent: 'center' }}
+                      onPress={() => this.props.navigation.navigate(item.screenToNavigate)}
+                    />
+                  </View>
+                : null}
               </View>
           ))}
         </View>
@@ -255,6 +269,33 @@ export default class CustomSidebarMenu extends Component {
       console.log(err);
     }
   }
+
+  getFavouriteLectureCount = async () => {
+    const apiurl = global.url + 'getfavouritelectures.php';
+    const userid = await retrieveData('userid');
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userid: userid,
+        })
+      });
+      const res = await response.json();
+      //console.log(res)
+      if (this._isMounted) {
+        this.setState({ favCount: res })
+      }
+    }
+    catch (err) {
+      return console.log(err);
+    }
+  }
+
 }
 const styles = StyleSheet.create({
   sideMenuContainer: {

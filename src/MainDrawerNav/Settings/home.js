@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Image, StyleSheet, Switch, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, StyleSheet, Switch, AsyncStorage, Alert } from 'react-native';
 import { Card, ListItem, Button, Icon, Divider, Avatar } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -178,17 +178,62 @@ class Home extends Component {
         </View>
         <View style={{ marginTop: wp('4%'), marginBottom: wp('8%') }}>
           <Button
-            title='LOGOUT'
+            title='DELETE ACCOUNT'
             loading={this.state.isLoading}
             disabled={this.state.isLoading}
             loadingProps={{ color: '#000' }}
             buttonStyle={styles.logoutButton}
             containerStyle={{ alignItems: 'center' }}
-            onPress={() => this.onLogoutPress(this.props.navigation.navigate)}
+            onPress={() => this.showDeleteAlert(this.props.navigation.navigate)}
           />
         </View>
       </ScrollView>
     );
+  }
+
+  showDeleteAlert = (param) => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete this account ?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => this.deleteAccount(param) },
+      ],
+    );
+  }
+  deleteAccount = async (param) => {
+    this.setState({ isLoading: true })
+    const apiurl = global.url + 'deleteaccount.php'
+    const formData = new FormData()
+    formData.append('userid', this.state.userid)
+
+    try {
+      const response = await fetch(apiurl, {
+        //handle post data
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData
+      });
+
+      const res = await response.json();
+      if (res.success) {
+        alert(res.message);
+        this.onLogoutPress(param);
+      } else {
+        alert(res.message);
+        this.setState({ isLoading: false })
+      }
+
+    }
+    catch (err) {
+      return console.log(err);
+    }
   }
 
   onLogoutPress = (param) => {

@@ -113,10 +113,10 @@ export default class UserSignupScreen extends Component {
               value={this.state.password}
               errorStyle={{ color: '#fff' }}
               errorMessage='Minimum of 6 characters'
-              rightIcon ={
+              rightIcon={
                 (this.state.password !== "") ?
-                  (this.state.password.length >= 6) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
-                : null}
+                  (this.state.password.length >= 6) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50' } : { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127' }
+                  : null}
             />
             <Input
               placeholder='Confirm Password'
@@ -126,10 +126,10 @@ export default class UserSignupScreen extends Component {
               containerStyle={{ width: wp('95%'), marginTop: wp('3%'), }}
               onChangeText={input => this.setState({ cpassword: input })}
               value={this.state.cpassword}
-              rightIcon ={
+              rightIcon={
                 (this.state.password !== "" && this.state.cpassword !== "") ?
-                  (this.state.password===this.state.cpassword) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
-                : null}
+                  (this.state.password === this.state.cpassword) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50' } : { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127' }
+                  : null}
             />
 
             <Button

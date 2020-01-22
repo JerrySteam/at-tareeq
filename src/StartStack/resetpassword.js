@@ -66,6 +66,12 @@ export default class ResetPasswordScreen extends Component {
               containerStyle={{ width: wp('83%'), marginTop: wp('14%') }}
               onChangeText={input => this.setState({ password: input })}
               value={this.state.password}
+              errorStyle={{ color: '#fff' }}
+              errorMessage='Minimum of 6 characters'
+              rightIcon ={
+                (this.state.password !== "") ?
+                  (this.state.password.length >= 6) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                : null}
             />
             <Input
               placeholder='Confirm New Password'
@@ -75,6 +81,10 @@ export default class ResetPasswordScreen extends Component {
               containerStyle={{ width: wp('83%'), marginTop: wp('14%') }}
               onChangeText={input => this.setState({ cpassword: input })}
               value={this.state.cpassword}
+              rightIcon ={
+                (this.state.password !== "" && this.state.cpassword !== "") ?
+                  (this.state.password===this.state.cpassword) ? { type: 'font-awesome', name: 'check-circle', size: wp('5%'), color: '#42DB50'}: { type: 'font-awesome', name: 'times-circle', size: wp('5%'), color: '#F84127'}
+                : null}
             />
             <Button
               title="SUBMIT"
@@ -114,6 +124,9 @@ export default class ResetPasswordScreen extends Component {
       this.setState({ isLoading: false })
     } else if (token === "" || password === "" || cpassword === "") {
       alert("All fields are required")
+      this.setState({ isLoading: false })
+    } else if (password.length < 6) {
+      alert("Password must be minimum 6 characters")
       this.setState({ isLoading: false })
     } else if (password !== cpassword) {
       alert("Password do not match")
