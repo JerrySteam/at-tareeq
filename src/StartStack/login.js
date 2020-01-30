@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, AsyncStorage, Switch } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, AsyncStorage, Switch, Alert } from 'react-native';
 //import { Container, Header, Content} from 'native-base';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Divider from 'react-native-divider';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -118,13 +119,14 @@ export default class LoginScreen extends Component {
 
           <View style={{ flexDirection: "row", marginTop: wp('4%') }}>
             <SocialIcon
+              type='facebook'
+              onPress={() => this.handleFacebookLogin()}
+            />
+            <SocialIcon
               type='google'
               onPress={() => this.signInWithGoogleAsync()}
             />
-            {/**           <SocialIcon
-              type='facebook'
-            //onPress={()=> this.props.navigation.navigate('FBLogin')}
-            />
+            {/**  
             <SocialIcon
               type='twitter'
             />
@@ -279,7 +281,7 @@ export default class LoginScreen extends Component {
       });
 
       if (result.type === 'success') {
-        this.setState({isReady: false});
+        this.setState({ isReady: false });
         console.log("token: ", result.accessToken);
         const user = result.user;
         await storeData('accesstoken', result.accessToken);
@@ -291,7 +293,7 @@ export default class LoginScreen extends Component {
         await storeData('location', '');
         await storeData('photourl', user.photoUrl);
         await storeData('roleid', '1');
-        this.setState({isReady: true})
+        this.setState({ isReady: true })
         this.props.navigation.navigate('MainDrawerNav');
       } else {
         console.log('cancelled');
@@ -300,6 +302,55 @@ export default class LoginScreen extends Component {
       console.log('error ', e)
     }
   }
+
+  handleFacebookLogin = async () => {
+    try {
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+        '2686580851427611', // Replace with your own app id in standalone app
+        { permissions: ['public_profile', 'email'] }
+      );
+
+      switch (type) {
+        case 'success': {
+          // Get the user's name using Facebook's Graph API
+          const response = await fetch(`https://graph.facebook.com/me?fields=id,name,first_name,last_name,email,picture,short_name&access_token=${token}`);
+          const profile = await response.json();
+          console.log(profile);
+          await storeData('accesstoken', token);
+          await storeData('userid', profile.id);
+          await storeData('fullname', profile.name);
+          await storeData('displayname', profile.short_name);
+          await storeData('phone', '');
+          await storeData('email', profile.email);
+          await storeData('location', '');
+          await storeData('photourl', profile.picture.data.url);
+          await storeData('roleid', '1');
+          this.props.navigation.navigate('MainDrawerNav');
+
+          // Alert.alert(
+          //   'Logged in!',
+          //   `Hi ${profile.name}!`,
+          // );
+          break;
+        }
+        case 'cancel': {
+          Alert.alert(
+            'Cancelled!',
+            'Login was cancelled!',
+          );
+          break;
+        }
+        default: {
+          Alert.alert(
+            'Oops!',
+            'Login failed!',
+          );
+        }
+      }
+    } catch (e) {
+      alert(e)
+    }
+  };
 
 }
 

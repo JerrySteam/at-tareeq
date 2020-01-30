@@ -11,7 +11,6 @@ import IndexScreen from './src';
 import LoginScreen from './src/StartStack/login';
 import ForgotPasswordScreen from './src/StartStack/forgotpassword';
 import ResetPasswordScreen from './src/StartStack/resetpassword';
-import FBLoginScreen from './src/StartStack/FBLoginButton';
 
 /**Create Account Stack Navigation Screen*/
 import AccountRoleScreen from './src/CreateAccountStack/selectrole';
@@ -26,7 +25,6 @@ const LoginStack = createStackNavigator({
   Login: {screen: LoginScreen,},
   ForgotPassword: {screen: ForgotPasswordScreen,},
   ResetPassword: {screen: ResetPasswordScreen,},
-  FBLogin: {screen: FBLoginScreen,},
 },{headerMode: 'screen'})
 
 const AccountStack = createStackNavigator({
