@@ -50,7 +50,7 @@ removeData= async (key) => {
 
 logout = async(navigate) => {
   const accesstoken = await AsyncStorage.getItem('accesstoken');
-  if (accesstoken !== null) {
+  if (accesstoken !== 'NORMAL_1234') {
     await removeAllUserInfo();
   }else{
     const username = await AsyncStorage.getItem('RMEU');

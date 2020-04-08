@@ -169,6 +169,7 @@ export default class LoginScreen extends Component {
 
         if (res.success) {
           const user = res.message[0];
+          await storeData('accesstoken', 'NORMAL_1234');
           await storeData('userid', user.userid.toString());
           await storeData('fullname', user.fullname);
           await storeData('displayname', user.displayname);
